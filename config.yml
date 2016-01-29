@@ -1,0 +1,6 @@
+webserver:
+    host: haddock.si.uji.es
+    port: 5002
+
+database:
+  filename: redirections.db

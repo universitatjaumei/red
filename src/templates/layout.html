@@ -1,0 +1,20 @@
+<!doctype html>
+<head>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <div class="layout">
+        <div class="menu">
+            <a class="heading" href="/">Red</a>
+            <ul>
+                <li class="{% if section=='redirection' %} selected{% endif %}"><a href="/" class="menu-link">Redirections</a></li>
+            </ul>
+            <p class="footer">Authenticated as {{ user }}</p>
+        </div>
+    <div class="main">
+        {% block body %}{% endblock %}
+    </div>
+</body>

@@ -1,0 +1,27 @@
+{
+  "name": "shipui",
+  "version": "0.0.1",
+  "homepage": "https://github.com/universitatjaumei/shipui",
+  "authors": [
+    "Ricardo Borillo <ricardo.borillo@gmail.com>",
+    "David Rubert <david.rubert@gmail.com>"
+  ],
+  "description": "User Interface for ship deployment tool",
+  "main": "",
+  "moduleType": [],
+  "keywords": [
+    "python",
+    "flask"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "pure": "purecss#~0.6.0"
+  }
+}

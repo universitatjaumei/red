@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block head %}
+    <title>Redirect UJI</title>
+{% endblock %}
+{% block body %}
+    <div class="header">
+        <h1>Redirections</h1>
+        <h2>Add/remove redirections</h2>
+    </div>
+    <div class="content">
+      <form name="addred" class="pure-form">
+        <fieldset>
+            <legend>A compact inline form</legend>
+
+            <input type="text" placeholder="Desired host name">
+            <input type="text" placeholder="Redirect URL">
+            <button type="submit" class="pure-button pure-button-primary">Add redirection</button>
+        </fieldset>
+      </form>
+
+      <table class="pure-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Hostname</th>
+                <th>Redirect URL</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>http://holamundo.uji.es</td>
+                <td>http://ujiapps.uji.es/holamundo</td>
+                <td><button type="submit" class="pure-button pure-button-secondary">Remove</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    </div>
+{% endblock %}
