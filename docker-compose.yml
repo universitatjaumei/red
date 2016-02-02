@@ -1,0 +1,16 @@
+red:
+  build: .
+  hostname: "red"
+  volumes:
+    - /opt/devel/workspaces/uji/red/data:/data
+  expose:
+    - "5000"
+
+nginx:
+  image: nginx
+  hostname: "nginx"
+  volumes:
+    - /opt/devel/workspaces/uji/red/data/nginx.conf.d:/etc/nginx/conf.d
+  ports:
+    - "8080:80"
+    - "8443:443"

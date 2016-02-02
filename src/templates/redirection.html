@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 {% block head %}
     <title>Redirect UJI</title>
+    <script src="{{ url_for('static', filename='components/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/redirection.js') }}"></script>
 {% endblock %}
 {% block body %}
     <div class="header">
@@ -8,13 +10,13 @@
         <h2>Add/remove redirections</h2>
     </div>
     <div class="content">
-      <form name="addred" class="pure-form">
+      <form name="red" class="pure-form" action="/api/red">
         <fieldset>
-            <legend>A compact inline form</legend>
+            <legend>Manage your redirections here</legend>
 
-            <input type="text" placeholder="Desired host name">
-            <input type="text" placeholder="Redirect URL">
-            <button type="submit" class="pure-button pure-button-primary">Add redirection</button>
+            <input type="text" placeholder="Desired host name" name="hostname">
+            <input type="text" placeholder="Redirect URL" name="url">
+            <button type="submit" class="pure-button pure-button-primary add">Add redirection</button>
         </fieldset>
       </form>
 
@@ -24,18 +26,12 @@
                 <th>#</th>
                 <th>Hostname</th>
                 <th>Redirect URL</th>
+                <th>Date Added</th>
                 <th>Action</th>
             </tr>
         </thead>
 
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>http://holamundo.uji.es</td>
-                <td>http://ujiapps.uji.es/holamundo</td>
-                <td><button type="submit" class="pure-button pure-button-secondary">Remove</button></td>
-            </tr>
-        </tbody>
+        <tbody></tbody>
     </table>
 
     </div>
