@@ -31,6 +31,23 @@ $(document).ready(function () {
 
   var redirections;
 
+  $('form[name=red] button.generate').click(function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '/api/red/generate',
+      contentType: 'application/json;charset=UTF-8',
+      success: function (data, status) {
+        console.log('done');
+      },
+
+      error: function (error) {
+        console.log('fail');
+      },
+    });
+    return false;
+  });
+
   $('form[name=red] button.add').click(function (e) {
     e.preventDefault();
 

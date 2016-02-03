@@ -1,8 +1,10 @@
 import flask
 from commons.database import Database
+from commons.nginx import NGINX
 
 api_app = flask.Blueprint("api_app", __name__, template_folder="../templates")
 db = Database()
+nginx = NGINX(db)
 
 @api_app.route("/api/red", methods=["GET"])
 def index():
@@ -19,4 +21,9 @@ def add():
 def delete():
     id = flask.request.json["id"]
     db.del_redirection(id)
+    return flask.jsonify({ "status": "ok" })
+
+@api_app.route("/api/red/generate", methods=["POST"])
+def generate():
+    nginx.apply_conf();
     return flask.jsonify({ "status": "ok" })

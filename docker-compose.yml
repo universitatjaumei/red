@@ -3,6 +3,7 @@ red:
   hostname: "red"
   volumes:
     - /opt/devel/workspaces/uji/red/data:/data
+    - /var/run/docker.sock:/var/run/docker.sock
   expose:
     - "5000"
 
@@ -11,6 +12,10 @@ nginx:
   hostname: "nginx"
   volumes:
     - /opt/devel/workspaces/uji/red/data/nginx.conf.d:/etc/nginx/conf.d
+
+  # Needed to wait for first container, http://stackoverflow.com/questions/33639138/docker-networking-nginx-emerg-host-not-found-in-upstream
+  volumes_from:
+    - red
   ports:
     - "8080:80"
     - "8443:443"

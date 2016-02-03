@@ -12,7 +12,11 @@
     <div class="content">
       <form name="red" class="pure-form" action="/api/red">
         <fieldset>
-            <legend>Manage your redirections here</legend>
+            <legend style="line-height: 2em; margin-bottom: 3em;">
+              <button type="submit" class="button-generate pure-button generate">Generate nginx.conf</button>
+              Manage your redirections below, or re-generate the <strong>NGINX</strong> configuration with the button on the right.
+              <br style="clear: both;" />
+            </legend>
 
             <input type="text" placeholder="Desired host name" name="hostname">
             <input type="text" placeholder="Redirect URL" name="url">

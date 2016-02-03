@@ -12,9 +12,18 @@ a {
     background: rgb(223, 117, 20); /* this is an orange */
 }
 
+.button-generate {
+    color: white;
+    background: rgb(202, 60, 60);
+    float: right;
+    clear: both;
+}
+
 .content {
     margin: 2em;
     padding: 0 2em;
+    margin: auto;
+    width: 70%;
 }
 
 .header {

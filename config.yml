@@ -1,6 +1,11 @@
 webserver:
-    host: red.uji.es
-    port: 5000
+    host: haddock.si.uji.es
+    port: 5002
 
 database:
   filename: /data/db/red.db
+
+nginx:
+  filename: /data/nginx.conf.d/red.conf
+  hostname: nginx
+  socket: /var/run/docker.sock
