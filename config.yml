@@ -1,11 +1,15 @@
-webserver:
-    host: haddock.si.uji.es
-    port: 5002
+red:
+  webserver:
+      host: haddock.si.uji.es
+      port: 5002
+      users:
+        - vruberto
+        - borillo
 
-database:
-  filename: /data/db/red.db
+  database:
+    filename: /data/db/red.db
 
-nginx:
-  filename: /data/nginx.conf.d/red.conf
-  hostname: nginx
-  socket: /var/run/docker.sock
+  nginx:
+    filename: /data/nginx.conf.d/red.conf
+    hostname: nginx
+    socket: /var/run/docker.sock

@@ -3,17 +3,10 @@ import os
 from docker import Client
 
 class NGINX:
-    def __init__(self, db):
-        nginx_config = self._get_config()
-        self.filename = os.path.join(os.path.dirname(__file__), '..', '..', nginx_config.get("filename"))
-        self.socket = nginx_config.get("socket")
+    def __init__(self, db, config):
+        self.filename = os.path.join(os.path.dirname(__file__), '..', '..', config.get("filename"))
+        self.socket = config.get("socket")
         self.db = db
-
-    def _get_config(self):
-        f = open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", "config.yml"))
-        data = yaml.safe_load(f)
-        f.close()
-        return data.get("nginx")
 
     def get_redirect_nginx_conf(self, red):
         return """

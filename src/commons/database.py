@@ -3,8 +3,8 @@ import yaml
 import os
 
 class Database:
-    def __init__(self):
-        filename = os.path.join(os.path.dirname(__file__), '..', '..', self._get_filename())
+    def __init__(self, dbconfig):
+        filename = os.path.join(os.path.dirname(__file__), '..', '..', dbconfig.get("filename"))
         self.db = self.create_or_open_db(filename)
         self.db.row_factory = self.dict_factory
 
@@ -27,12 +27,6 @@ class Database:
                 active BOOL DEFAULT true);'''
             conn.execute(sql)
         return conn
-
-    def _get_filename(self):
-        f = open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", "config.yml"))
-        data = yaml.safe_load(f)
-        f.close()
-        return data.get("database").get("filename")
 
     def get_redirections(self):
         cursor = self.db.cursor()

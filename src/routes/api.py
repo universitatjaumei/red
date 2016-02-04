@@ -1,10 +1,12 @@
 import flask
 from commons.database import Database
 from commons.nginx import NGINX
+from commons.config import Config
 
+config = Config()
 api_app = flask.Blueprint("api_app", __name__, template_folder="../templates")
-db = Database()
-nginx = NGINX(db)
+db = Database(config.get("database"))
+nginx = NGINX(db, config.get("nginx"))
 
 @api_app.route("/api/red", methods=["GET"])
 def index():
