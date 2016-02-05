@@ -42,7 +42,7 @@ $(document).ready(function () {
       },
 
       error: function (error) {
-        console.log('fail');
+        alert(error.responseJSON.message);
       },
     });
     return false;
@@ -79,7 +79,7 @@ $(document).ready(function () {
       },
 
       error: function (error) {
-        console.log('fail');
+        alert(error.responseJSON.message);
       },
     });
   });

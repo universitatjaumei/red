@@ -29,5 +29,8 @@ server {
                 client.kill(container.get('Id'), 'HUP')
 
     def apply_conf(self):
+        result = { "status": 200, "message": "ok" }
         self.generate_conf()
         self.reload_nginx()
+
+        return result

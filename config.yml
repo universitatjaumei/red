@@ -3,7 +3,7 @@ red:
       host: haddock.si.uji.es
       port: 5002
       users:
-        - vruberto
+        - vrubert
         - borillo
 
   database:
