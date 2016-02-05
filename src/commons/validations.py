@@ -1,6 +1,7 @@
 from rfc3987 import parse
 import socket
 import re
+import urllib2
 
 class Validations:
     @staticmethod
@@ -39,3 +40,13 @@ class Validations:
             r'uji.es$'
         )
         return pattern.search(hostname)
+
+    @staticmethod
+    def check_url_valid_status_code(url):
+        try:
+            urllib2.urlopen(url)
+            return True
+        except urllib2.HTTPError, e:
+            return False
+        except urllib2.URLError, e:
+            return False

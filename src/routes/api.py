@@ -31,6 +31,10 @@ def add():
         result = { "status": 500, "message": "The hostname doesn't exists and doesn't pertain to the UJI institution"}
         return flask.make_response(flask.jsonify(result), 500)
 
+    if not Validations.check_url_valid_status_code(url):
+        result = { "status": 500, "message": "The redirection URL doesn't return a valid status code"}
+        return flask.make_response(flask.jsonify(result), 500)
+
     db.add_redirection({ "hostname": hostname, "url": url})
     result = { "status": 200, "message": "ok "}
     return flask.make_response(flask.jsonify(result), result.get("status"))
