@@ -13,3 +13,6 @@ red:
     filename: /data/nginx.conf.d/red.conf
     hostname: nginx
     socket: /var/run/docker.sock
+
+  dns:
+    api_url: http://dns.uji.es/api

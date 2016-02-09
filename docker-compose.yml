@@ -1,21 +1,33 @@
-red:
-  build: .
-  hostname: "red"
-  volumes:
-    - /opt/devel/workspaces/uji/red/data:/data
-    - /var/run/docker.sock:/var/run/docker.sock
-  expose:
-    - "5000"
+version: '2'
 
-nginx:
-  image: nginx
-  hostname: "nginx"
-  volumes:
-    - /opt/devel/workspaces/uji/red/data/nginx.conf.d:/etc/nginx/conf.d
+services:
+  red:
+    build: .
+    hostname: "red"
+    networks:
+      - front
+    volumes:
+      - /opt/devel/workspaces/uji/red/data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/devel/workspaces/uji/red/src:/src
+    expose:
+      - "5000"
 
-  # Needed to wait for first container, http://stackoverflow.com/questions/33639138/docker-networking-nginx-emerg-host-not-found-in-upstream
-  volumes_from:
-    - red
-  ports:
-    - "8080:80"
-    - "8443:443"
+  nginx:
+    image: nginx
+    hostname: "nginx"
+    networks:
+      - front
+    volumes:
+      - /opt/devel/workspaces/uji/red/data/nginx.conf.d:/etc/nginx/conf.d
+
+    # Needed to wait for first container, http://stackoverflow.com/questions/33639138/docker-networking-nginx-emerg-host-not-found-in-upstream
+    volumes_from:
+      - red
+    ports:
+      - "8080:80"
+      - "8443:443"
+
+networks:
+  front:
+    driver: bridge

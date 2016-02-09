@@ -38,7 +38,7 @@ $(document).ready(function () {
       url: '/api/red/generate',
       contentType: 'application/json;charset=UTF-8',
       success: function (data, status) {
-        console.log('done');
+        alert(data.message);
       },
 
       error: function (error) {
@@ -98,8 +98,8 @@ $(document).ready(function () {
           $('table tbody').append(
             '<tr class="' + className + '">' +
             '<td>' + row.id + '</td>' +
-            '<td>' + row.host + '</td>' +
-            '<td>' + row.url + '</td>' +
+            '<td><a href="' + row.host + '">' + row.host + '</a></td>' +
+            '<td><a href="' + row.url + '">' + row.url + '</a></td>' +
             '<td>' + row['date_added'] + '</td>' +
             '<td><button type="submit" data-id="' + row.id + '" class="pure-button pure-button-secondary del">Remove</button></td>' +
             '</tr>'

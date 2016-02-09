@@ -30,7 +30,7 @@ class Database:
 
     def get_redirections(self):
         cursor = self.db.cursor()
-        cursor.execute ('''SELECT id, host, url, date_added, active from red''')
+        cursor.execute ('''SELECT id, host, url, date_added, active from red order by id desc''')
         rows = []
         for row in cursor:
             rows.append(row)
@@ -39,6 +39,11 @@ class Database:
     def get_redirection(self, id):
         cursor = self.db.cursor()
         cursor.execute ('''SELECT id, host, url, date_added, active from red where id=?''', (id, ))
+        return cursor.fetchone()
+
+    def get_redirection_by_domain(self, domain):
+        cursor = self.db.cursor()
+        cursor.execute ('''SELECT id, host, url, date_added, active from red where host=?''', (domain, ))
         return cursor.fetchone()
 
     def add_redirection(self, red):

@@ -12,7 +12,7 @@ RUN easy_install pip
 # Install requirements.txt
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt
-COPY /src /src
+#COPY /src /src
 COPY config.yml /
 
 WORKDIR /src

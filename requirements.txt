@@ -2,3 +2,4 @@ flask
 requests
 fabric
 docker-py
+rfc3987
