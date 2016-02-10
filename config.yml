@@ -7,10 +7,10 @@ red:
         - borillo
 
   database:
-    filename: /data/db/red.db
+    db_file: /data/db/red.db
 
   nginx:
-    filename: /data/nginx.conf.d/red.conf
+    red_nginx_conf_file: /data/nginx.conf.d/red.conf
     hostname: nginx
     socket: /var/run/docker.sock
 

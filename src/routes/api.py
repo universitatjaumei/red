@@ -31,6 +31,7 @@ def add():
         return flask.make_response(flask.jsonify(result), 500)
 
     db.add_redirection({ "hostname": hostname, "url": url})
+
     return flask.make_response(flask.jsonify(result), result.get("status"))
 
 @api_app.route("/api/red", methods=["DELETE"])
@@ -42,5 +43,4 @@ def delete():
 @api_app.route("/api/red/generate", methods=["POST"])
 def generate():
     result = nginx.apply_conf()
-    nginx.check_status()
     return flask.make_response(flask.jsonify(result), result.get("status"))

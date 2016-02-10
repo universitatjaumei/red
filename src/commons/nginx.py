@@ -4,7 +4,7 @@ from docker import Client
 
 class NGINX:
     def __init__(self, db, config):
-        self.filename = os.path.join(os.path.dirname(__file__), '..', '..', config.get("filename"))
+        self.redConfFile = os.path.join(os.path.dirname(__file__), '..', '..', config.get("red_nginx_conf_file"))
         self.client = Client(base_url="unix://%s" % config.get("socket"))
         self.db = db
 
@@ -18,7 +18,7 @@ server {
 """ % red
 
     def generate_conf(self):
-        fd = open(self.filename, "w+")
+        fd = open(self.redConfFile, "w+")
         for red in self.db.get_redirections():
             fd.write(self.get_redirect_nginx_conf(red))
 
@@ -30,9 +30,6 @@ server {
     def reload_nginx(self):
         container = self.get_nginx_container()
         self.client.kill(container.get('Id'), 'HUP')
-
-    def check_status(self):
-        return { "status": 500, "message": "Nginx is not running." }
 
     def apply_conf(self):
         result = { "status": 200, "message": "Nginx configuration applied and service restarted." }

@@ -4,8 +4,8 @@ import os
 
 class Database:
     def __init__(self, dbconfig):
-        filename = os.path.join(os.path.dirname(__file__), '..', '..', dbconfig.get("filename"))
-        self.db = self.create_or_open_db(filename)
+        dbfile = os.path.join(os.path.dirname(__file__), '..', '..', dbconfig.get("db_file"))
+        self.db = self.create_or_open_db(dbfile)
         self.db.row_factory = self.dict_factory
 
     def dict_factory(self, cursor, row):
@@ -18,7 +18,6 @@ class Database:
         db_is_new = not os.path.exists(db_file)
         conn = sqlite3.connect(db_file, check_same_thread=False)
         if db_is_new:
-            print 'Creating schema'
             sql = '''create table if not exists red(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 host TEXT,
