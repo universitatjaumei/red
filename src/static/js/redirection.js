@@ -1,6 +1,6 @@
 
-function checkValidUJIDomain(domain) {
-  if (/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9].uji.es$/.test(domain)) {
+function checkValidDomain(domain) {
+  if (/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(domain)) {
     return true;
   }
 
@@ -19,7 +19,7 @@ function checkDomainDuplicated(redirections, red) {
   var duplicated = false;
 
   redirections.filter(function (redirection) {
-    if (redirection.url === red.url || redirection.host === red.hostname) {
+    if (redirection.host === red.hostname) {
       duplicated = true;
     }
   });
@@ -30,6 +30,17 @@ function checkDomainDuplicated(redirections, red) {
 $(document).ready(function () {
 
   var redirections;
+
+  $('form[name=red] input#hostname').on('change', function (data) {
+    var value = $(this).val();
+    if (!value || value.indexOf('www.') === 0) {
+      $('label#althostname').hide();
+      return;
+    }
+
+    $('label#althostname').show();
+    $('label#althostname strong').text('www.' + value);
+  });
 
   $('form[name=red] button.generate').click(function (e) {
     e.preventDefault();
@@ -53,8 +64,9 @@ $(document).ready(function () {
 
     var hostname = $('form[name=red] input[name=hostname]').val();
     var url = $('form[name=red] input[name=url]').val();
+    var althostname = $('form[name=red] label#althostname input').val();
 
-    if (!checkValidUJIDomain(hostname)) {
+    if (!checkValidDomain(hostname)) {
       alert('Invalid hostname');
       return;
     }
@@ -65,14 +77,21 @@ $(document).ready(function () {
     }
 
     if (checkDomainDuplicated(redirections, { hostname: hostname, url: url })) {
-      alert('Duplicated redirection');
+      alert('Duplicated redirection ' + hostname);
+      return;
+    }
+
+    if (althostname === 'on' &&
+        hostname.indexOf('www.') !== 0 &&
+        checkDomainDuplicated(redirections, { hostname: 'www.' + hostname, url: url })) {
+      alert('Duplicated redirection www.' + hostname);
       return;
     }
 
     $.ajax({
       type: 'POST',
       url: $('form[name=red]').attr('action'),
-      data: JSON.stringify({ hostname: hostname, url: url }),
+      data: JSON.stringify({ hostname: hostname, url: url, alt: althostname }),
       contentType: 'application/json;charset=UTF-8',
       success: function (data, status) {
         updateTable();

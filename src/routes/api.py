@@ -20,6 +20,7 @@ def index():
 def add():
     hostname = flask.request.json["hostname"].lower().strip()
     url = flask.request.json["url"].lower().strip()
+    alternative = flask.request.json["alt"].lower().strip() == 'on'
 
     result = validations.check_redirection_can_be_added(hostname, url)
 
@@ -31,6 +32,12 @@ def add():
         return flask.make_response(flask.jsonify(result), 500)
 
     db.add_redirection({ "hostname": hostname, "url": url})
+
+    if alternative:
+        althostname = 'www.' + hostname
+        if not validations.check_domain_exists(althostname):
+            dns.add_domain(althostname)
+        db.add_redirection({ "hostname": althostname, "url": url})
 
     return flask.make_response(flask.jsonify(result), result.get("status"))
 
