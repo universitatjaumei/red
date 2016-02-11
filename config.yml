@@ -1,11 +1,10 @@
 red:
   webserver:
       domain: haddock.si.uji.es
-      port: 5002
+      port: 5000
       users:
         - vrubert
         - borillo
-
   database:
     db_file: /data/db/red.db
 
