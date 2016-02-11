@@ -18,26 +18,26 @@ def index():
 
 @api_app.route("/api/red", methods=["POST"])
 def add():
-    hostname = flask.request.json["hostname"].lower().strip()
+    domain = flask.request.json["domain"].lower().strip()
     url = flask.request.json["url"].lower().strip()
     alternative = flask.request.json["alt"].lower().strip() == 'on'
 
-    result = validations.check_redirection_can_be_added(hostname, url)
+    result = validations.check_redirection_can_be_added(domain, url)
 
     if result.get("status") == 500:
         return flask.make_response(flask.jsonify(result), 500)
 
-    if not validations.check_domain_exists(hostname) and not dns.add_domain(hostname):
-        result = { "status": 500, "message": "The hostname couldn't be added to the DNS"}
+    if not validations.check_domain_exists(domain) and not dns.add_domain(domain):
+        result = { "status": 500, "message": "The domain couldn't be added to the DNS"}
         return flask.make_response(flask.jsonify(result), 500)
 
-    db.add_redirection({ "hostname": hostname, "url": url})
+    db.add_redirection({ "domain": domain, "url": url})
 
     if alternative:
-        althostname = 'www.' + hostname
-        if not validations.check_domain_exists(althostname):
-            dns.add_domain(althostname)
-        db.add_redirection({ "hostname": althostname, "url": url})
+        altdomain = 'www.' + domain
+        if not validations.check_domain_exists(altdomain):
+            dns.add_domain(altdomain)
+        db.add_redirection({ "domain": altdomain, "url": url})
 
     return flask.make_response(flask.jsonify(result), result.get("status"))
 

@@ -12,7 +12,7 @@ class NGINX:
         return """
 server {
 	listen 80;
-	server_name %(host)s;
+	server_name %(domain)s;
 	return 301 %(url)s;
 }
 """ % red

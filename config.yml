@@ -1,6 +1,6 @@
 red:
   webserver:
-      host: haddock.si.uji.es
+      domain: haddock.si.uji.es
       port: 5002
       users:
         - vrubert

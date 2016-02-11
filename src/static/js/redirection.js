@@ -19,7 +19,7 @@ function checkDomainDuplicated(redirections, red) {
   var duplicated = false;
 
   redirections.filter(function (redirection) {
-    if (redirection.host === red.hostname) {
+    if (redirection.domain === red.domain) {
       duplicated = true;
     }
   });
@@ -31,15 +31,15 @@ $(document).ready(function () {
 
   var redirections;
 
-  $('form[name=red] input#hostname').on('change', function (data) {
+  $('form[name=red] input#domain').on('change', function (data) {
     var value = $(this).val();
     if (!value || value.indexOf('www.') === 0) {
-      $('label#althostname').hide();
+      $('label#altdomain').hide();
       return;
     }
 
-    $('label#althostname').show();
-    $('label#althostname strong').text('www.' + value);
+    $('label#altdomain').show();
+    $('label#altdomain strong').text('www.' + value);
   });
 
   $('form[name=red] button.generate').click(function (e) {
@@ -62,12 +62,12 @@ $(document).ready(function () {
   $('form[name=red] button.add').click(function (e) {
     e.preventDefault();
 
-    var hostname = $('form[name=red] input[name=hostname]').val();
+    var domain = $('form[name=red] input[name=domain]').val();
     var url = $('form[name=red] input[name=url]').val();
-    var althostname = $('form[name=red] label#althostname input').val();
+    var altdomain = $('form[name=red] label#altdomain input').val();
 
-    if (!checkValidDomain(hostname)) {
-      alert('Invalid hostname');
+    if (!checkValidDomain(domain)) {
+      alert('Invalid domain');
       return;
     }
 
@@ -76,22 +76,22 @@ $(document).ready(function () {
       return;
     }
 
-    if (checkDomainDuplicated(redirections, { hostname: hostname, url: url })) {
-      alert('Duplicated redirection ' + hostname);
+    if (checkDomainDuplicated(redirections, { domain: domain, url: url })) {
+      alert('Duplicated redirection ' + domain);
       return;
     }
 
-    if (althostname === 'on' &&
-        hostname.indexOf('www.') !== 0 &&
-        checkDomainDuplicated(redirections, { hostname: 'www.' + hostname, url: url })) {
-      alert('Duplicated redirection www.' + hostname);
+    if (altdomain === 'on' &&
+        domain.indexOf('www.') !== 0 &&
+        checkDomainDuplicated(redirections, { domain: 'www.' + domain, url: url })) {
+      alert('Duplicated redirection www.' + domain);
       return;
     }
 
     $.ajax({
       type: 'POST',
       url: $('form[name=red]').attr('action'),
-      data: JSON.stringify({ hostname: hostname, url: url, alt: althostname }),
+      data: JSON.stringify({ domain: domain, url: url, alt: altdomain }),
       contentType: 'application/json;charset=UTF-8',
       success: function (data, status) {
         updateTable();
@@ -117,7 +117,7 @@ $(document).ready(function () {
           $('table tbody').append(
             '<tr class="' + className + '">' +
             '<td>' + row.id + '</td>' +
-            '<td><a href="' + row.host + '">' + row.host + '</a></td>' +
+            '<td><a href="' + row.domain + '">' + row.domain + '</a></td>' +
             '<td><a href="' + row.url + '">' + row.url + '</a></td>' +
             '<td>' + row['date_added'] + '</td>' +
             '<td><button type="submit" data-id="' + row.id + '" class="pure-button pure-button-secondary del">Remove</button></td>' +

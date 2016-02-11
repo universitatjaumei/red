@@ -14,7 +14,7 @@ class LSM:
 
         self.logger = logging.getLogger("werkzeug")
 
-        self.domain = config.get("host")
+        self.domain = config.get("domain")
 
         # Urls
         # SSO path (xmlrpc and web).
