@@ -64,7 +64,7 @@ $(document).ready(function () {
 
     var domain = $('form[name=red] input[name=domain]').val();
     var url = $('form[name=red] input[name=url]').val();
-    var altdomain = $('form[name=red] label#altdomain input').val();
+    var altdomain = domain.indexOf('www.') !== 0 && $('form[name=red] label#altdomain input:checked').length === 1;
 
     if (!checkValidDomain(domain)) {
       alert('Invalid domain');
@@ -81,7 +81,8 @@ $(document).ready(function () {
       return;
     }
 
-    if (altdomain === 'on' &&
+    console.log(altdomain);
+    if (altdomain &&
         domain.indexOf('www.') !== 0 &&
         checkDomainDuplicated(redirections, { domain: 'www.' + domain, url: url })) {
       alert('Duplicated redirection www.' + domain);

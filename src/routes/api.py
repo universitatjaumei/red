@@ -20,7 +20,7 @@ def index():
 def add():
     domain = flask.request.json["domain"].lower().strip()
     url = flask.request.json["url"].lower().strip()
-    alternative = flask.request.json["alt"].lower().strip() == 'on'
+    alternative = flask.request.json["alt"]
 
     result = validations.check_redirection_can_be_added(domain, url)
 
