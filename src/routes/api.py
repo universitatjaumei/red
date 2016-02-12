@@ -9,8 +9,12 @@ config = Config()
 api_app = flask.Blueprint("api_app", __name__, template_folder="../templates")
 db = Database(config.get("database"))
 nginx = NGINX(db, config.get("nginx"))
-validations = Validations(db)
-dns = DNS(config.get("dns"))
+validations = Validations(db, config.get("domain"))
+dns = DNS(config.get("domain"))
+
+@api_app.route("/api/red/local_domain", methods=["GET"])
+def local_domain():
+    return flask.jsonify({ "domain": config.get('domain').get('name', '') })
 
 @api_app.route("/api/red", methods=["GET"])
 def index():

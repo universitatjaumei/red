@@ -19,14 +19,19 @@
             </legend>
 
             <div>
+              <label style="font-weight: bold;">Domain</label>
               <input type="text" placeholder="Desired domain name" name="domain" id="domain">
-              <input type="text" placeholder="Redirect URL" name="url">
-              <button type="submit" class="pure-button pure-button-primary add">Add redirection</button>
+              <span class="domain"></span>
             </div>
-
             <label for="domain" id="altdomain" style="display: none;">
               <input type="checkbox" checked /> Add the <strong>www</strong> site too
             </label>
+
+            <div style="margin-top: 1em;">
+              <label style="font-weight: bold;">Redirect URL</label>
+              <input class="long" type="text" placeholder="Redirect URL" name="url">
+              <button type="submit" class="pure-button pure-button-primary add">Add redirection</button>
+            </div>
         </fieldset>
       </form>
 

@@ -30,12 +30,30 @@ function checkDomainDuplicated(redirections, red) {
 $(document).ready(function () {
 
   var redirections;
+  var localDomain;
+
+  $.ajax({
+    type: 'GET',
+    url: '/api/red/local_domain',
+    contentType: 'application/json;charset=UTF-8',
+    success: function (data, status) {
+      localDomain = data.domain;
+      if (localDomain) {
+        $('span.domain').html('.' + localDomain);
+        $('span.domain').show();
+      }
+    },
+  });
 
   $('form[name=red] input#domain').on('change', function (data) {
     var value = $(this).val();
     if (!value || value.indexOf('www.') === 0) {
       $('label#altdomain').hide();
       return;
+    }
+
+    if (localDomain) {
+      value += '.' + localDomain;
     }
 
     $('label#altdomain').show();
@@ -63,6 +81,10 @@ $(document).ready(function () {
     e.preventDefault();
 
     var domain = $('form[name=red] input[name=domain]').val();
+    if (localDomain) {
+      domain += '.' + localDomain;
+    }
+
     var url = $('form[name=red] input[name=url]').val();
     var altdomain = domain.indexOf('www.') !== 0 && $('form[name=red] label#altdomain input:checked').length === 1;
 
@@ -81,7 +103,6 @@ $(document).ready(function () {
       return;
     }
 
-    console.log(altdomain);
     if (altdomain &&
         domain.indexOf('www.') !== 0 &&
         checkDomainDuplicated(redirections, { domain: 'www.' + domain, url: url })) {
@@ -95,6 +116,8 @@ $(document).ready(function () {
       data: JSON.stringify({ domain: domain, url: url, alt: altdomain }),
       contentType: 'application/json;charset=UTF-8',
       success: function (data, status) {
+        $('input[name=domain]').val('').focus();
+        $('input[name=url]').val('');
         updateTable();
       },
 

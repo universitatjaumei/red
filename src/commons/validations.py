@@ -4,8 +4,9 @@ import re
 import urllib2
 
 class Validations:
-    def __init__(self, db):
+    def __init__(self, db, domain_config):
         self.db = db
+        self.local_domain = domain_config.get('name', None)
 
     def check_valid_domain(self, domain):
         pattern = re.compile(
@@ -31,13 +32,14 @@ class Validations:
         except socket.gaierror:
             return False
 
-    def check_uji_domain(self, domain):
+    def check_local_domain(self, domain):
         pattern = re.compile(
             r'^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|'
             r'([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|'
             r'([a-zA-Z0-9][-_.a-zA-Z0-9]{1,61}[a-zA-Z0-9]))\.'
-            r'uji.es$'
+            r'%s$' % self.local_domain
         )
+
         return pattern.search(domain)
 
     def check_url_valid_status_code(self, url):
@@ -54,18 +56,18 @@ class Validations:
 
     def check_redirection_can_be_added(self, domain, url):
         if not self.check_valid_domain(domain):
-            return { "status": 500, "message": "Invalid domain"}
+            return { "status": 500, "message": "Invalid domain" }
 
         if not self.check_destination_url(url):
-            return { "status": 500, "message": "Invalid redirection url"}
+            return { "status": 500, "message": "Invalid redirection url" }
 
-        if not self.check_domain_exists(domain) and not self.check_uji_domain(domain):
-            return { "status": 500, "message": "The domain doesn't exists and doesn't pertain to the UJI institution"}
+        if self.local_domain and not self.check_domain_exists(domain) and not self.check_local_domain(domain):
+            return { "status": 500, "message": "The domain doesn't exists and doesn't pertain to the %s parent domain" % self.local_domain }
 
         if not self.check_url_valid_status_code(url):
-            return { "status": 500, "message": "The redirection URL doesn't return a valid status code"}
+            return { "status": 500, "message": "The redirection URL doesn't return a valid status code" }
 
         if self.is_duplicated_in_db(domain):
-            return { "status": 500, "message": "The domain already has a redirection"}
+            return { "status": 500, "message": "The domain already has a redirection" }
 
-        return { "status": 200, "message": "ok "}
+        return { "status": 200, "message": "ok " }

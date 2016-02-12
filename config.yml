@@ -1,10 +1,12 @@
 red:
+
   webserver:
       domain: haddock.si.uji.es
       port: 5000
       users:
         - vrubert
         - borillo
+
   database:
     db_file: /data/db/red.db
 
@@ -13,5 +15,6 @@ red:
     hostname: nginx
     socket: /var/run/docker.sock
 
-  dns:
-    api_url: http://dns.uji.es/api
+  domain:
+    name: uji.es
+    dns_api: http://dns.uji.es/api

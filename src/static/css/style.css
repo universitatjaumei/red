@@ -24,6 +24,20 @@ a:hover {
     clear: both;
 }
 
+label {
+  display: block;
+}
+
+input.long {
+  width: 400px;
+}
+
+span.domain {
+  display: none;
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .content {
     margin: 2em;
     padding: 0 2em;
