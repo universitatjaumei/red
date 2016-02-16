@@ -1,17 +1,18 @@
 {
-  "name": "shipui",
+  "name": "red",
   "version": "0.0.1",
-  "homepage": "https://github.com/universitatjaumei/shipui",
+  "homepage": "https://github.com/universitatjaumei/red",
   "authors": [
     "Ricardo Borillo <ricardo.borillo@gmail.com>",
     "David Rubert <david.rubert@gmail.com>"
   ],
-  "description": "User Interface for ship deployment tool",
+  "description": "HTTP Redirections UI",
   "main": "",
   "moduleType": [],
   "keywords": [
     "python",
-    "flask"
+    "flask",
+    "jquery"
   ],
   "license": "MIT",
   "ignore": [

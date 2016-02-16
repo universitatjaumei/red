@@ -2,7 +2,9 @@ FROM debian:jessie
 MAINTAINER Ricardo Borillo <borillo@gmail.com>
 MAINTAINER David Rubert <david.rubert@gmail.com>
 
-RUN apt-get update -y && apt-get install --no-install-recommends -y -q python-setuptools build-essential python-dev fabric python-yaml python-simplejson subversion maven ca-certificates
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update -y && apt-get install --no-install-recommends -y -q python-setuptools python-yaml ca-certificates
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

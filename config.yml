@@ -1,8 +1,8 @@
 red:
 
-  webserver:
+  port: 5000
+  auth:
       domain: haddock.si.uji.es
-      port: 5000
       users:
         - vrubert
         - borillo
@@ -12,7 +12,6 @@ red:
 
   nginx:
     red_nginx_conf_file: /data/nginx.conf.d/red.conf
-    hostname: nginx
     socket: /var/run/docker.sock
 
   domain:
