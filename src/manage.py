@@ -19,18 +19,21 @@ if __name__ == "__main__":
     config = Config()
     dns = DNS(config.get("dns"))
     db = Database(config.get("database"))
-    validations = Validations(db)
+    validations = Validations(db, config.get("domain"))
 
     parser = argparse.ArgumentParser(description="Manage RED redirections with command-line utility")
-    parser.add_argument("action", choices=['add', 'del'], help="Action")
-    parser.add_argument("domain", help="Domain name")
+    parser.add_argument("action", choices=['add', 'del', 'list'], help="Action")
+    parser.add_argument("domain", help="Domain name", nargs='?')
     parser.add_argument("url", nargs='?', help="Destination URL")
     args = parser.parse_args()
 
     domain = args.domain
     action = args.action
 
-    if action == 'add':
+    if action == 'list':
+        for red in db.get_redirections():
+            print "%(date_added)s %(domain)s -> %(url)s" % red
+    elif action == 'add':
         url = args.url
 
         if not url:
