@@ -2,4 +2,4 @@
 *.pyc
 components
 data/db/red.db
-data/nginx.conf.d/red.conf
+data/nginx.conf.d/*.conf
