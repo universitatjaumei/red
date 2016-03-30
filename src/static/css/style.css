@@ -42,7 +42,7 @@ span.domain {
     margin: 2em;
     padding: 0 2em;
     margin: auto;
-    width: 70%;
+    min-width: 70%;
 }
 
 .header {
@@ -125,6 +125,18 @@ span.domain {
 .content {
     padding-left: 2em;
     padding-right: 2em;
+}
+
+.content form {
+  width: 70%;
+  margin: auto;
+}
+
+.content table {
+    font-weight: 10px;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 4em;
 }
 
 .layout {

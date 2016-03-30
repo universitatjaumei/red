@@ -136,12 +136,17 @@ $(document).ready(function () {
         $('table tbody').empty();
         for (var i in data.rows) {
           var row = data.rows[i];
+          var narrowUrl = row.url;
+          if (narrowUrl.length > 50) {
+            narrowUrl = narrowUrl.substring(0,20) + '...';
+          }
+
           var className = i % 2 === 0 ? '' : 'pure-table-odd';
           $('table tbody').append(
             '<tr class="' + className + '">' +
             '<td>' + row.id + '</td>' +
             '<td><a href="http://' + row.domain + '">' + row.domain + '</a></td>' +
-            '<td><a href="' + row.url + '">' + row.url + '</a></td>' +
+            '<td><a href="' + row.url + '">' + narrowUrl + '...</a></td>' +
             '<td>' + row.date_added + '</td>' +
             '<td><button type="submit" data-id="' + row.id + '" class="pure-button pure-button-secondary del">Remove</button></td>' +
             '</tr>'
