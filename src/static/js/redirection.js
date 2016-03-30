@@ -138,7 +138,7 @@ $(document).ready(function () {
           var row = data.rows[i];
           var narrowUrl = row.url;
           if (narrowUrl.length > 50) {
-            narrowUrl = narrowUrl.substring(0,20) + '...';
+            narrowUrl = narrowUrl.substring(0, 50) + '...';
           }
 
           var className = i % 2 === 0 ? '' : 'pure-table-odd';
@@ -146,7 +146,7 @@ $(document).ready(function () {
             '<tr class="' + className + '">' +
             '<td>' + row.id + '</td>' +
             '<td><a href="http://' + row.domain + '">' + row.domain + '</a></td>' +
-            '<td><a href="' + row.url + '">' + narrowUrl + '...</a></td>' +
+            '<td><a href="' + row.url + '">' + narrowUrl + '</a></td>' +
             '<td>' + row.date_added + '</td>' +
             '<td><button type="submit" data-id="' + row.id + '" class="pure-button pure-button-secondary del">Remove</button></td>' +
             '</tr>'
