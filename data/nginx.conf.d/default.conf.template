@@ -1,5 +1,0 @@
-server {
-  listen ${NGINX_PORT} default_server;
-  server_name ${NGINX_HOST};
-  root ${NGINX_DOCUMENT_ROOT};
-}

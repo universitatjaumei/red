@@ -2,7 +2,7 @@ red:
 
   port: 5000
   auth:
-      domain: haddock.si.uji.es
+      domain: red.n.uji.es
       users:
         - vrubert
         - borillo
