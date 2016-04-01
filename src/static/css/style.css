@@ -32,6 +32,10 @@ input.long {
   width: 400px;
 }
 
+button.right {
+  float: right;
+}
+
 span.domain {
   display: none;
   font-size: 18px;
@@ -128,7 +132,7 @@ span.domain {
 }
 
 .content form {
-  width: 70%;
+  width: 90%;
   margin: auto;
 }
 
