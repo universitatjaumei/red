@@ -146,7 +146,7 @@ $(document).ready(function () {
             '<tr class="' + className + '">' +
             '<td>' + row.id + '</td>' +
             '<td><a href="http://' + row.domain + '">' + row.domain + '</a></td>' +
-            '<td><a href="' + row.url + '">' + narrowUrl + '</a></td>' +
+            '<td><a href="' + row.url + '" title="' + row.url + '">' + narrowUrl + '</a></td>' +
             '<td>' + row.date_added + '</td>' +
             '<td><button type="submit" data-id="' + row.id + '" class="pure-button pure-button-secondary del">Remove</button></td>' +
             '</tr>'
