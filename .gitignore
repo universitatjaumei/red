@@ -1,4 +1,5 @@
 .idea
 *.pyc
 data/db/red.db
-data/nginx.conf.d/*.conf
+data/nginx/nginx.conf.d/*.conf
+data/nginx/nginx.conf

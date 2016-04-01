@@ -2,6 +2,6 @@
 pushd `dirname $0` > /dev/null
 
 docker-compose build
-docker-compose up
+docker-compose up -d
 
 popd > /dev/null
