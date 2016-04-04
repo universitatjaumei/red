@@ -6,4 +6,4 @@ DATE=$(date +"%Y-%m-%d")
 
 mkdir -p "$BACKUP_DIR"
 
-sqlite3 "$DB" .dump > "$BACKUP_DIR/red.$DATE.dump"
+sqlite3 "$DB" .dump | gzip -c > "$BACKUP_DIR/red.$DATE.dump.gz"
