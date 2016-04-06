@@ -52,7 +52,10 @@ $(document).ready(function () {
     }
 
     if (localDomain) {
-      value += '.' + localDomain;
+      var ereg = new RegExp(localDomain + '$');
+      if (value.match(ereg) === null) {
+        value += '.' + localDomain;
+      }
     }
 
     $('label#altdomain').show();
@@ -81,7 +84,10 @@ $(document).ready(function () {
 
     var domain = $('form[name=red] input[name=domain]').val();
     if (localDomain) {
-      domain += '.' + localDomain;
+      var ereg = new RegExp(localDomain + '$');
+      if (domain.match(ereg) === null) {
+        domain += '.' + localDomain;
+      }
     }
 
     var url = $('form[name=red] input[name=url]').val();
