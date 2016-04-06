@@ -11,7 +11,7 @@ red:
     db_file: /data/db/red.db
 
   nginx:
-    red_nginx_conf_file: /data/nginx.conf.d/red.conf
+    red_nginx_conf_file: /data/nginx/nginx.conf.d/red.conf
     socket: /var/run/docker.sock
 
   domain:

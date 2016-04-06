@@ -73,7 +73,7 @@ $(document).ready(function () {
       },
 
       error: function (error) {
-        alert(error.responseJSON.message);
+        alert("Error generating Ngnix configuration");
       },
     });
     return false;
