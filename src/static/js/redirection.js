@@ -123,6 +123,7 @@ $(document).ready(function () {
       success: function (data, status) {
         $('input[name=domain]').val('').focus();
         $('input[name=url]').val('');
+        $('label#altdomain').hide();        
         updateTable();
       },
 
