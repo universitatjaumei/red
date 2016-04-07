@@ -21,5 +21,4 @@ nginx:
    - NGINX_DOCUMENT_ROOT=/etc/nginx/root
   ports:
     - "80:80"
-  command: /bin/bash -c "envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
   restart: always
