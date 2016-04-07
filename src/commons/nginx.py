@@ -2,10 +2,12 @@ import yaml
 import os
 from docker import Client
 from datetime import datetime
+
 class NGINX:
     def __init__(self, db, config):
         self.redConfFile = os.path.join(os.path.dirname(__file__), '..', '..', config.get("red_nginx_conf_file"))
         self.client = Client(base_url="unix://%s" % config.get("socket"))
+
         self.db = db
         for container in self.client.containers():
             if container.get('Image') == 'nginx':
@@ -27,7 +29,7 @@ server {
             fd.write(self.get_redirect_nginx_conf(red))
 
     def reload_nginx(self, container):
-        return self.client.kill(self.container.get('Id'), 'HUP')
+        return self.client.restart(self.container.get('Id'))
 
     def get_result(self, timestamp):
         result = { "status": 200, "message": "Nginx configuration applied and service restarted." }
@@ -42,6 +44,7 @@ server {
     def apply_conf(self):
         timestamp = datetime.now()
         self.generate_conf()
+
         nginx_result = self.reload_nginx(self.container)
 
         return self.get_result(timestamp)
