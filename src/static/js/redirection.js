@@ -1,9 +1,5 @@
 function checkValidDomain(domain) {
-  if (/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(domain)) {
-    return true;
-  }
-
-  return false;
+  return /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(domain);
 }
 
 function checkValidURL(url) {
@@ -26,10 +22,6 @@ function checkDomainDuplicated(redirections, red) {
   return duplicated;
 }
 
-function checkValidDomainName(domain) {
-  return /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(domain);
-}
-
 $(document).ready(function () {
 
   var redirections;
@@ -49,27 +41,26 @@ $(document).ready(function () {
   });
 
   $('form[name=red] input#domain').on('change', function (data) {
-    var value = $(this).val();
+    var domain = $(this).val();
 
-    if (!checkValidDomainName(value)) {
-      alert('Invalid domain name');
+    if (!checkValidDomain(domain)) {
       return;
     }
 
-    if (!value || value.indexOf('www.') === 0) {
+    if (!domain || domain.indexOf('www.') === 0) {
       $('label#altdomain').hide();
       return;
     }
 
     if (localDomain) {
       var ereg = new RegExp(localDomain + '$');
-      if (value.match(ereg) === null) {
-        value += '.' + localDomain;
+      if (domain.match(ereg) === null) {
+        domain += '.' + localDomain;
       }
     }
 
     $('label#altdomain').show();
-    $('label#altdomain strong').text('www.' + value);
+    $('label#altdomain strong').text('www.' + domain);
   });
 
   $('form[name=red] button.generate').click(function (e) {
@@ -151,11 +142,13 @@ $(document).ready(function () {
   });
 
   function updateTable() {
+    $('img.spinner').show();
     $.ajax({
       type: 'GET',
       url: '/api/red',
       contentType: 'application/json;charset=UTF-8',
       success: function (data, status) {
+        $('img.spinner').hide();
         redirections = data.rows.slice();
         $('table tbody').empty();
         for (var i in data.rows) {
@@ -173,7 +166,10 @@ $(document).ready(function () {
             '<td><a href="' + row.url + '" title="' + row.url + '">' + narrowUrl + '</a></td>' +
             '<td>' + row.date_added + '</td>' +
             '<td><button type="submit" data-id="' + row.id +
-            '" class="pure-button pure-button-secondary del">Remove</button></td>' +
+            '" class="pure-button pure-button-secondary del">' +
+            '<img class="spinner-remove-' + row.id +
+            '" src="/static/img/spinner-remove.gif" />' +
+            ' Remove</button></td>' +
             '</tr>'
           );
         }
@@ -190,8 +186,10 @@ $(document).ready(function () {
   function updateListeners() {
     $('table button.del').on('click', function (e) {
       e.preventDefault();
-      $(this).closest('tr').remove();
+      var tr = $(this).closest('tr');
       var redId = $(this).data('id');
+
+      $('img.spinner-remove-' + redId).show();
 
       $.ajax({
         type: 'DELETE',
@@ -203,12 +201,10 @@ $(document).ready(function () {
         },
 
         error: function (error) {
+          $('img.spinner-remove-' + redId).hide();
           console.log('fail');
         },
       });
-
-      updateTable();
-      return false;
     });
   }
 

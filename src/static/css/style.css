@@ -24,6 +24,14 @@ a:hover {
     clear: both;
 }
 
+button.del {
+  width: 100px;
+}
+
+button.del img {
+  display: none;
+}
+
 label {
   display: block;
 }
@@ -47,6 +55,10 @@ span.domain {
     padding: 0 2em;
     margin: auto;
     min-width: 70%;
+}
+
+.center {
+  text-align: center;
 }
 
 .header {
@@ -152,10 +164,13 @@ img.spinner-generate {
     display: none;
 }
 
-img.spinner-add {
+img.spinner {
     display: none;
 }
 
+img.spinner-add {
+    display: none;
+}
 
 /* When the body has the loading class, we turn
    the scrollbar off with overflow:hidden */
