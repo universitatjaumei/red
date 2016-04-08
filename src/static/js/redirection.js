@@ -148,7 +148,7 @@ $(document).ready(function () {
       url: '/api/red',
       contentType: 'application/json;charset=UTF-8',
       success: function (data, status) {
-        $('img.spinner').hide();
+        $('div.spinner').hide();
         redirections = data.rows.slice();
         $('table tbody').empty();
         for (var i in data.rows) {
