@@ -164,8 +164,12 @@ img.spinner-generate {
     display: none;
 }
 
-img.spinner {
-    display: none;
+div.spinner {
+  display: none;
+  margin: auto;
+  width: 800px;
+  height: 600px;
+  background: url("/static/img/spinner.gif");
 }
 
 img.spinner-add {

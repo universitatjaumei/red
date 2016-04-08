@@ -142,7 +142,7 @@ $(document).ready(function () {
   });
 
   function updateTable() {
-    $('img.spinner').show();
+    $('div.spinner').show();
     $.ajax({
       type: 'GET',
       url: '/api/red',
