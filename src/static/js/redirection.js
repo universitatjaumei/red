@@ -26,6 +26,10 @@ function checkDomainDuplicated(redirections, red) {
   return duplicated;
 }
 
+function checkValidDomainName(domain) {
+  return /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(domain);
+}
+
 $(document).ready(function () {
 
   var redirections;
@@ -46,6 +50,12 @@ $(document).ready(function () {
 
   $('form[name=red] input#domain').on('change', function (data) {
     var value = $(this).val();
+
+    if (!checkValidDomainName(value)) {
+      alert('Invalid domain name');
+      return;
+    }
+
     if (!value || value.indexOf('www.') === 0) {
       $('label#altdomain').hide();
       return;
@@ -64,16 +74,19 @@ $(document).ready(function () {
 
   $('form[name=red] button.generate').click(function (e) {
     e.preventDefault();
+    $('img.spinner-generate').show();
     $.ajax({
       type: 'POST',
       url: '/api/red/generate',
       contentType: 'application/json;charset=UTF-8',
       success: function (data, status) {
+        $('img.spinner-generate').hide();
         alert(data.message);
       },
 
       error: function (error) {
-        alert("Error generating Ngnix configuration");
+        $('img.spinner-generate').hide();
+        alert('Error generating Ngnix configuration');
       },
     });
     return false;
@@ -91,7 +104,8 @@ $(document).ready(function () {
     }
 
     var url = $('form[name=red] input[name=url]').val();
-    var altdomain = domain.indexOf('www.') !== 0 && $('form[name=red] label#altdomain input:checked').length === 1;
+    var altdomain = domain.indexOf('www.') !== 0 &&
+                    $('form[name=red] label#altdomain input:checked').length === 1;
 
     if (!checkValidDomain(domain)) {
       alert('Invalid domain');
@@ -115,6 +129,7 @@ $(document).ready(function () {
       return;
     }
 
+    $('img.spinner-add').show();
     $.ajax({
       type: 'POST',
       url: $('form[name=red]').attr('action'),
@@ -123,11 +138,13 @@ $(document).ready(function () {
       success: function (data, status) {
         $('input[name=domain]').val('').focus();
         $('input[name=url]').val('');
-        $('label#altdomain').hide();        
+        $('label#altdomain').hide();
         updateTable();
+        $('img.spinner-add').hide();
       },
 
       error: function (error) {
+        $('img.spinner-add').hide();
         alert(error.responseJSON.message);
       },
     });
@@ -155,7 +172,8 @@ $(document).ready(function () {
             '<td><a href="http://' + row.domain + '">' + row.domain + '</a></td>' +
             '<td><a href="' + row.url + '" title="' + row.url + '">' + narrowUrl + '</a></td>' +
             '<td>' + row.date_added + '</td>' +
-            '<td><button type="submit" data-id="' + row.id + '" class="pure-button pure-button-secondary del">Remove</button></td>' +
+            '<td><button type="submit" data-id="' + row.id +
+            '" class="pure-button pure-button-secondary del">Remove</button></td>' +
             '</tr>'
           );
         }

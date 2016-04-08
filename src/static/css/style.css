@@ -147,3 +147,24 @@ span.domain {
     padding-left: 240px; /* left col width ".menu" */
     left: 0;
 }
+
+img.spinner-generate {
+    display: none;
+}
+
+img.spinner-add {
+    display: none;
+}
+
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+    display: block;
+}
