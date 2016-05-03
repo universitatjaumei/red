@@ -3,8 +3,8 @@ MAINTAINER Ricardo Borillo <borillo@gmail.com>
 MAINTAINER David Rubert <david.rubert@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
-
-RUN apt-get update -y && apt-get install --no-install-recommends -y -q locales python-setuptools python-yaml ca-certificates
+ 
+RUN apt-get update -y && apt-get install --no-install-recommends -y -q locales python-setuptools python-yaml ca-certificates python-dev build-essential apt-utils  libpcre3 libpcre3-dev
 RUN dpkg-reconfigure locales && locale-gen C.UTF-8 && /usr/sbin/update-locale LANG=C.UTF-8
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -22,4 +22,4 @@ COPY config.yml /
 
 WORKDIR /src
 VOLUME data:/data
-ENTRYPOINT ["python", "server.py"]
+ENTRYPOINT ["uwsgi", "--http", ":5000", "--wsgi-file", "/src/server.py", "--callable", "app"]
