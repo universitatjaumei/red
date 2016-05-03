@@ -1,4 +1,4 @@
 flask
 requests
-docker-py
+docker-py==1.5.0
 rfc3987
