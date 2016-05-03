@@ -23,7 +23,6 @@ server {
 """ % red
 
     def generate_conf(self):
-        print self.redConfFile
         fd = open(self.redConfFile, "w+")
         for red in self.db.get_redirections():
             fd.write(self.get_redirect_nginx_conf(red))
