@@ -4,9 +4,8 @@ red:
     - /home/ec2-user/red/data:/data
     - /var/run/docker.sock:/var/run/docker.sock
     - /home/ec2-user/red/src:/src
-  ports:
-    - "5000:5000"
-
+  expose:
+    - "5000"
   restart: always
   log_opt:
     max-size: "100m"
@@ -24,6 +23,24 @@ nginx:
    - NGINX_DOCUMENT_ROOT=/etc/nginx/root
   ports:
     - "80:80"
+  restart: always
+  log_opt:
+    max-size: "100m"
+    max-file: "10"
+
+nginx_admin:
+  image: nginx
+  links:
+    - red
+  volumes:
+    - /home/ec2-user/red/data/nginx_admin:/etc/nginx/conf.d
+    - /home/ec2-user/red/src/static:/etc/nginx/static
+  environment:
+   - NGINX_HOST=localhost
+   - NGINX_PORT=80
+   - NGINX_DOCUMENT_ROOT=/etc/nginx/root
+  ports:
+    - "5000:80"
   restart: always
   log_opt:
     max-size: "100m"
