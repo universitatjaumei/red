@@ -36,4 +36,4 @@ def after_request(res):
 
 if __name__ == "__main__":
     port = config.get("port")
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", debug=False)
