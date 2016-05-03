@@ -2,3 +2,4 @@ flask
 requests
 docker-py==1.5.0
 rfc3987
+uwsgi
