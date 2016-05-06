@@ -1,11 +1,28 @@
 import yaml
 import os
+from oracle import OracleDatabase
+from commons.validations import Validations
+import socket
 
 class DNS:
     def __init__(self, config):
-        #self.api_url = config.get("dns_api")
-        return
+        self.oracle = OracleDatabase(config.get("oracle_conn"))
 
-    # TODO: add the domain name to the local DNS
+    def check_domain_exists(self, domain):
+        try:
+            socket.gethostbyname(domain)
+            return True
+        except socket.gaierror:
+            return False
+
     def add_domain(self, domain):
-        return True
+        if self.check_domain_exists(domain):
+            return False
+
+        return self.oracle.add_domain(domain)
+
+    def delete_domain(self, domain):
+        #if not self.check_domain_exists(domain):
+        #    return False
+
+        return self.oracle.delete_domain(domain)

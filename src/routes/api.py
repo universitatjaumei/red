@@ -31,7 +31,7 @@ def add():
     if result.get("status") == 500:
         return flask.make_response(flask.jsonify(result), 500)
 
-    if not validations.check_domain_exists(domain) and not dns.add_domain(domain):
+    if not dns.add_domain(domain):
         result = { "status": 500, "message": "The domain couldn't be added to the DNS"}
         return flask.make_response(flask.jsonify(result), 500)
 
@@ -39,8 +39,7 @@ def add():
 
     if alternative:
         altdomain = 'www.' + domain
-        if not validations.check_domain_exists(altdomain):
-            dns.add_domain(altdomain)
+        dns.add_domain(altdomain)
         db.add_redirection({ "domain": altdomain, "url": url})
 
     return flask.make_response(flask.jsonify(result), result.get("status"))
@@ -48,7 +47,9 @@ def add():
 @api_app.route("/api/red", methods=["DELETE"])
 def delete():
     id = flask.request.json["id"]
+    domain = db.get_redirection(id).get("domain")
     db.del_redirection(id)
+    dns.delete_domain(domain)
     return flask.jsonify({ "status": "ok" })
 
 @api_app.route("/api/red/generate", methods=["POST"])
