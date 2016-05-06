@@ -2,7 +2,7 @@ red:
 
   port: 5000
   auth:
-      domain: haddock.si.uji.es
+      domain: red.n.uji.es
       users:
         - vrubert
         - borillo
@@ -16,5 +16,3 @@ red:
 
   domain:
     name: uji.es
-    dns_api: http://dns.uji.es/api
-    oracle_conn: oracle://<schema>:<password>@<database>:1521/<sid>

@@ -18,7 +18,6 @@ RUN echo /lib/oracle > /etc/ld.so.conf.d/oracle.conf
 RUN ldconfig
 
 #COPY /src /src
-COPY config.yml /
 
 # Install pip
 RUN easy_install pip
@@ -28,5 +27,6 @@ COPY requirements.txt /tmp/requirements.txt
 RUN CPATH=/lib/oracle/include pip install -r /tmp/requirements.txt
 
 VOLUME /data
-#ENTRYPOINT ["uwsgi", "--http", ":5000", "--wsgi-file", "/src/server.py", "--callable", "app"]
-ENTRYPOINT [ "python2", "server.py" ]
+COPY config.yml /
+ENTRYPOINT ["uwsgi", "--http", ":5000", "--wsgi-file", "/src/server.py", "--callable", "app"]
+#ENTRYPOINT [ "python2", "server.py" ]
