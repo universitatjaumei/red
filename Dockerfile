@@ -27,6 +27,5 @@ COPY requirements.txt /tmp/requirements.txt
 RUN CPATH=/lib/oracle/include pip install -r /tmp/requirements.txt
 
 VOLUME /data
-COPY config.yml /
 ENTRYPOINT ["uwsgi", "--http", ":5000", "--wsgi-file", "/src/server.py", "--callable", "app"]
 #ENTRYPOINT [ "python2", "server.py" ]

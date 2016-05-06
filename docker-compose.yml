@@ -4,6 +4,7 @@ red:
     - /home/ec2-user/red/data:/data
     - /var/run/docker.sock:/var/run/docker.sock
     - /home/ec2-user/red/src:/src
+    - /home/ec2-user/red/config.yml:/config.yml
   expose:
     - "5000"
   restart: always
