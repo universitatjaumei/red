@@ -56,7 +56,7 @@ class DNS:
 
     def add_domain(self, domain):
         if self.check_domain_exists(domain):
-            return False
+            return True
 
         if self.db:
             return self.db.add_domain(domain)
