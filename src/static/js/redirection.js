@@ -77,7 +77,8 @@ $(document).ready(function () {
 
       error: function (error) {
         $('img.spinner-generate').hide();
-        alert('Error generating Ngnix configuration');
+        var responseMessage = JSON.parse(error.responseText);
+        alert(responseMessage.message);
       },
     });
     return false;
