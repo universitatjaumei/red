@@ -17,14 +17,14 @@ ADD oracle /lib/oracle
 RUN echo /lib/oracle > /etc/ld.so.conf.d/oracle.conf
 RUN ldconfig
 
-#COPY /src /src
-
 # Install pip
 RUN easy_install pip
 
 # Install requirements.txt
 COPY requirements.txt /tmp/requirements.txt
 RUN CPATH=/lib/oracle/include pip install -r /tmp/requirements.txt
+
+COPY /src /src
 
 VOLUME /data
 ENTRYPOINT ["uwsgi", "--http", ":5000", "--wsgi-file", "/src/server.py", "--callable", "app"]
