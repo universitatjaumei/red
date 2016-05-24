@@ -23,7 +23,7 @@ def index():
 @api_app.route("/api/red", methods=["POST"])
 def add():
     domain = flask.request.json["domain"].lower().strip()
-    url = flask.request.json["url"].lower().strip()
+    url = flask.request.json["url"].strip()
     alternative = flask.request.json["alt"]
 
     result = validations.check_redirection_can_be_added(domain, url)
