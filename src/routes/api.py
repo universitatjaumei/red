@@ -55,4 +55,9 @@ def delete():
 @api_app.route("/api/red/generate", methods=["POST"])
 def generate():
     result = nginx.apply_conf()
+
+    if (result.get("status") != 200):
+        return flask.make_response(flask.jsonify(result), result.get("status"))
+
+    result = dns.generate_zone()
     return flask.make_response(flask.jsonify(result), result.get("status"))
