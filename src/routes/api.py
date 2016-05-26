@@ -1,16 +1,18 @@
 import flask
-from commons.database import Database
+from commons.sqlite import Database
 from commons.nginx import NGINX
 from commons.config import Config
 from commons.validations import Validations
 from commons.dns import DNS
+from commons.oracle import OracleDatabase
 
 config = Config()
 api_app = flask.Blueprint("api_app", __name__, template_folder="../templates")
 db = Database(config.get("database"))
 nginx = NGINX(db, config.get("nginx"))
 validations = Validations(db, config.get("domain"))
-dns = DNS(config.get("domain"))
+oracle_conn = config.get("domain").get("db_conn")
+dns = DNS(config.get("domain"), OracleDatabase(oracle_conn))
 
 @api_app.route("/api/red/local_domain", methods=["GET"])
 def local_domain():
@@ -32,8 +34,7 @@ def add():
         return flask.make_response(flask.jsonify(result), 500)
 
     if not dns.add_domain(domain):
-        result = { "status": 500, "message": "The domain couldn't be added to the DNS"}
-        return flask.make_response(flask.jsonify(result), 500)
+        result = { "status": 500, "message": "The domain couldn't be added to the DNS, but the redirection has been added"}
 
     db.add_redirection({ "domain": domain, "url": url})
 
