@@ -191,10 +191,12 @@ $(document).ready(function () {
             narrowUrl = narrowUrl.substring(0, 45) + '...';
           }
 
+          var status_img = row.status ? "/static/img/status_ok.jpg" : "/static/img/status_error.jpg";
+
           var className = i % 2 === 0 ? '' : 'pure-table-odd';
           $('table tbody').append(
             '<tr class="' + className + '">' +
-            '<td class="id">' + row.id + '</td>' +
+            '<td class="id"><img title="' + row.message + '" src="' + status_img +'" /></td>' +
             '<td class="domain"><a href="http://' + row.domain + '">' + row.domain + '</a></td>' +
             '<td><a href="#" class="openmodal"><img class="edit" src="/static/img/edit.png" /></a> <a data-id="' + row.id + '" class="redirect" href="' + row.url + '" title="' + row.url + '">' + narrowUrl + '</a></td>' +
             '<td class="date">' + row.date_added + '</td>' +

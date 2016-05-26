@@ -50,6 +50,10 @@ span.domain {
   font-weight: bold;
 }
 
+td.id img {
+  display:inline;
+}
+
 .content {
     margin: 2em;
     padding: 0 2em;

@@ -71,3 +71,21 @@ class Validations:
             return { "status": 500, "message": "The domain already has a redirection" }
 
         return { "status": 200, "message": "ok " }
+
+    def check_redirection_status(self, redirection):
+        domain = redirection.get("domain")
+        url = redirection.get("url")
+
+        if not self.check_valid_domain(domain):
+            return { "status": 500, "message": "Invalid domain" }
+
+        if not self.check_destination_url(url):
+            return { "status": 500, "message": "Invalid redirection url" }
+
+        if self.local_domain and not self.check_domain_exists(domain) and not self.check_local_domain(domain):
+            return { "status": 500, "message": "The domain doesn't exists and doesn't pertain to the %s parent domain" % self.local_domain }
+
+        if not self.check_url_valid_status_code(url):
+            return { "status": 500, "message": "The redirection URL doesn't return a valid status code" }
+
+        return { "status": 200, "message": "ok " }

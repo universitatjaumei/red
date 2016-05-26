@@ -17,12 +17,12 @@ def error(message):
 if __name__ == "__main__":
 
     config = Config()
-    dns = DNS(config.get("dns"))
+    dns = DNS(config.get("domain").get("dns"))
     db = Database(config.get("database"))
     validations = Validations(db, config.get("domain"))
 
     parser = argparse.ArgumentParser(description="Manage RED redirections with command-line utility")
-    parser.add_argument("action", choices=['add', 'del', 'list'], help="Action")
+    parser.add_argument("action", choices=['add', 'del', 'list', 'check'], help="Action")
     parser.add_argument("domain", help="Domain name", nargs='?')
     parser.add_argument("url", nargs='?', help="Destination URL")
     args = parser.parse_args()
@@ -45,3 +45,12 @@ if __name__ == "__main__":
         db.add_redirection({ "domain": domain, "url": url})
     elif action == 'del':
         db.del_redirection_by_domain(domain)
+    elif action == 'check':
+        for redirection in db.get_redirections():
+            result = validations.check_redirection_status(redirection)
+            print redirection.get('domain')
+            print result
+            if result.get("status") == 200:
+                db.update_status(redirection.get('id'), True, '')
+            else:
+                db.update_status(redirection.get('id'), False, result.get("message"))

@@ -29,7 +29,7 @@ class Database:
 
     def get_redirections(self):
         cursor = self.db.cursor()
-        cursor.execute ('''SELECT id, domain, url, date_added, active from red order by id desc''')
+        cursor.execute ('''SELECT id, domain, url, date_added, active, status, message from red order by id desc''')
         rows = []
         for row in cursor:
             rows.append(row)
@@ -53,6 +53,10 @@ class Database:
 
     def update_redirection(self, id, redirection):
         self.db.execute ('''UPDATE red SET url=? WHERE id=?''', (redirection, id, ))
+        self.db.commit()
+
+    def update_status(self, id, status, message):
+        self.db.execute ('''UPDATE red SET status=?, message=? WHERE id=?''', (status, message, id, ))
         self.db.commit()
 
     def del_redirection(self, id):
