@@ -44,13 +44,21 @@ def add():
 
     return flask.make_response(flask.jsonify(result), result.get("status"))
 
-@api_app.route("/api/red", methods=["DELETE"])
-def delete():
-    id = flask.request.json["id"]
+@api_app.route("/api/red/<id>", methods=["DELETE"])
+def delete(id):
     domain = db.get_redirection(id).get("domain")
     db.del_redirection(id)
     dns.delete_domain(domain)
-    return flask.jsonify({ "status": "ok" })
+    return flask.jsonify({ "status": 200 })
+
+@api_app.route("/api/red/<id>", methods=["PUT"])
+def put(id):
+    redirect = flask.request.json["redirect"]
+    if not validations.check_destination_url(redirect):
+        return flask.jsonify({ "status": 500, "message": "Invalid redirection URL" })
+
+    db.update_redirection(id, redirect)
+    return flask.jsonify({ "status": 200 })
 
 @api_app.route("/api/red/generate", methods=["POST"])
 def generate():

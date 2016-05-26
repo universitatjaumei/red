@@ -132,6 +132,10 @@ span.domain {
     height: auto;
 }
 
+td.date {
+  width: 150px;
+}
+
 .menu-link:hover,
 .menu-link:focus {
     background: #333;
@@ -164,6 +168,10 @@ img.spinner-generate {
     display: none;
 }
 
+img.edit {
+  margin-right: .5em;
+}
+
 div.spinner {
   display: none;
   margin: auto;
@@ -173,6 +181,10 @@ div.spinner {
 }
 
 img.spinner-add {
+    display: none;
+}
+
+img.spinner-edit {
     display: none;
 }
 
@@ -186,4 +198,17 @@ body.loading {
    modal element will be visible */
 body.loading .modal {
     display: block;
+}
+
+div#edit strong, div#edit button, div#edit input {
+  margin-top: 1em;
+}
+
+div#edit strong.redirection {
+  width: 100%;
+  font-size: 14px;
+}
+
+div#edit input {
+  width: 100%;
 }

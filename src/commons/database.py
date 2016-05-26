@@ -51,6 +51,10 @@ class Database:
         self.db.commit()
         return self.get_redirection(cursor.lastrowid)
 
+    def update_redirection(self, id, redirection):
+        self.db.execute ('''UPDATE red SET url=? WHERE id=?''', (redirection, id, ))
+        self.db.commit()
+
     def del_redirection(self, id):
         self.db.execute ('''DELETE FROM red WHERE id=?''', (id, ))
         self.db.commit()

@@ -40,6 +40,38 @@ $(document).ready(function () {
     },
   });
 
+  $("#edit button.change-redirection").click(function(ev) {
+    var id = $("#edit input.id").val();
+    var redirect = $("#edit input.new-redirection").val();
+
+    if (!checkValidURL(redirect)) {
+      alert('Invalid redirect URL');
+      return;
+    }
+
+    $('img.spinner-edit').show();
+
+    $.ajax({
+      type: 'PUT',
+      url: '/api/red/' + id,
+      contentType: 'application/json;charset=UTF-8',
+      data: JSON.stringify({ id: id, redirect: redirect }),
+      success: function (data, status) {
+        $('img.spinner-edit').hide();
+        if (data.status === 500) {
+          return alert(data.message);
+        }
+        $.modal.close();
+        updateTable();
+      },
+
+      error: function (error) {
+        $('img.spinner-generate').hide();
+        alert("Server error");
+      },
+    });
+  });
+
   $('form[name=red] input#domain').on('change', function (data) {
     var domain = $(this).val();
 
@@ -155,17 +187,17 @@ $(document).ready(function () {
         for (var i in data.rows) {
           var row = data.rows[i];
           var narrowUrl = row.url;
-          if (narrowUrl.length > 50) {
-            narrowUrl = narrowUrl.substring(0, 50) + '...';
+          if (narrowUrl.length > 45) {
+            narrowUrl = narrowUrl.substring(0, 45) + '...';
           }
 
           var className = i % 2 === 0 ? '' : 'pure-table-odd';
           $('table tbody').append(
             '<tr class="' + className + '">' +
-            '<td>' + row.id + '</td>' +
-            '<td><a href="http://' + row.domain + '">' + row.domain + '</a></td>' +
-            '<td><a href="' + row.url + '" title="' + row.url + '">' + narrowUrl + '</a></td>' +
-            '<td>' + row.date_added + '</td>' +
+            '<td class="id">' + row.id + '</td>' +
+            '<td class="domain"><a href="http://' + row.domain + '">' + row.domain + '</a></td>' +
+            '<td><a href="#" class="openmodal"><img class="edit" src="/static/img/edit.png" /></a> <a data-id="' + row.id + '" class="redirect" href="' + row.url + '" title="' + row.url + '">' + narrowUrl + '</a></td>' +
+            '<td class="date">' + row.date_added + '</td>' +
             '<td><button type="submit" data-id="' + row.id +
             '" class="pure-button pure-button-secondary del">' +
             '<img class="spinner-remove-' + row.id +
@@ -185,6 +217,18 @@ $(document).ready(function () {
   }
 
   function updateListeners() {
+    $('a.openmodal').click(function(ev) {
+      var domain = $(this).parent().parent().children("td.domain").children("a").text();
+      var redirect = $(this).parent().children("a.redirect").attr("title");
+      var id = $(this).parent().children("a.redirect").data("id");
+      ev.preventDefault();
+      $("#edit strong.domain").text(domain);
+      $("#edit strong.redirection").html(redirect);
+      $("#edit input.id").val(id);
+      $("#edit input.new-redirection").val('');
+      $('#edit').modal();
+    });
+
     $('table button.del').on('click', function (e) {
       e.preventDefault();
       var tr = $(this).closest('tr');
@@ -194,8 +238,7 @@ $(document).ready(function () {
 
       $.ajax({
         type: 'DELETE',
-        url: $('form[name=red]').attr('action'),
-        data: JSON.stringify({ id: redId }),
+        url: '/api/red/' + redId,
         contentType: 'application/json;charset=UTF-8',
         success: function (data, status) {
           updateTable();

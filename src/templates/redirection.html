@@ -2,12 +2,24 @@
 {% block head %}
     <title>Redirect UJI</title>
     <script src="{{ url_for('static', filename='components/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='components/jquery-modal/jquery.modal.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/redirection.js') }}"></script>
 {% endblock %}
 {% block body %}
     <div class="header">
         <h1>Redirections</h1>
         <h2>Add/remove redirections</h2>
+    </div>
+    <div id="edit" style="display:none; width: 50%;">
+      <form class="pure-form pure-form-stacked">
+          <fieldset>
+              <legend>Domain: <strong class="domain">Domain</strong></legend>
+              <strong class="redirection">Actual redirection</strong>
+              <input class="new-redirection" placeholder="Insert new redirection value">
+              <input class="id" type="hidden" />
+              <button type="button" class="pure-button pure-button-primary change-redirection"><img class="spinner-edit" src="{{ url_for('static', filename='img/spinner-edit.gif') }}" /> Change</button>
+          </fieldset>
+      </form>
     </div>
     <div class="content">
       <form name="red" class="pure-form pure-form-stacked" action="/api/red">
