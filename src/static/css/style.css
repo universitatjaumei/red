@@ -28,6 +28,14 @@ button.del {
   width: 100px;
 }
 
+tr.redrow-even {
+    background: #fcabab;
+}
+
+tr.redrow-odd {
+  background: #f98686;
+}
+
 button.del img {
   display: none;
 }

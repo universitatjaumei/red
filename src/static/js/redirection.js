@@ -191,9 +191,12 @@ $(document).ready(function () {
             narrowUrl = narrowUrl.substring(0, 45) + '...';
           }
 
-          var status_img = row.status ? "/static/img/status_ok.jpg" : "/static/img/status_error.jpg";
-
+          var status_img = row.status ? "/static/img/status_ok.jpg" : "/static/img/status_error.png";
           var className = i % 2 === 0 ? '' : 'pure-table-odd';
+          if (!row.status) {
+            className = i % 2 === 0 ? 'redrow-even' : 'redrow-odd';
+          }
+
           $('table tbody').append(
             '<tr class="' + className + '">' +
             '<td class="id"><img title="' + row.message + '" src="' + status_img +'" /></td>' +
