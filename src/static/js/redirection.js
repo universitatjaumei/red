@@ -168,6 +168,7 @@ $(document).ready(function () {
       },
 
       error: function (error) {
+        updateTable();
         $('img.spinner-add').hide();
         alert(error.responseJSON.message);
       },

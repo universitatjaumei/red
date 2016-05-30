@@ -27,21 +27,25 @@ def add():
     domain = flask.request.json["domain"].lower().strip()
     url = flask.request.json["url"].strip()
     alternative = flask.request.json["alt"]
+    status = True
+    message = ""
 
     result = validations.check_redirection_can_be_added(domain, url)
-
     if result.get("status") == 500:
-        return flask.make_response(flask.jsonify(result), 500)
+        status = False
+        message = result.get("message")
 
     if not dns.add_domain(domain):
-        result = { "status": 500, "message": "The domain couldn't be added to the DNS, but the redirection has been added"}
+        status = False
+        result = { "status": 500, "message": "The domain couldn't be added to the DNS, but the redirection has been added" }
+        message = result.get("message")
 
-    db.add_redirection({ "domain": domain, "url": url})
+    db.add_redirection({ "domain": domain, "url": url, "status": status, "message": message })
 
     if alternative:
         altdomain = 'www.' + domain
         dns.add_domain(altdomain)
-        db.add_redirection({ "domain": altdomain, "url": url})
+        db.add_redirection({ "domain": altdomain, "url": url, "status": status, "message": message })
 
     return flask.make_response(flask.jsonify(result), result.get("status"))
 

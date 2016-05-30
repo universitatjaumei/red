@@ -47,7 +47,7 @@ class Database:
 
     def add_redirection(self, red):
         cursor = self.db.cursor()
-        self.db.execute ('''INSERT INTO red(domain, url) VALUES(?, ?)''', (red['domain'], red['url']))
+        self.db.execute ('''INSERT INTO red(domain, url, status, message) VALUES(?, ?, ?, ?)''', (red['domain'], red['url'], red['status'], red['message']))
         self.db.commit()
         return self.get_redirection(cursor.lastrowid)
 
