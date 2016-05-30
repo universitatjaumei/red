@@ -32,8 +32,7 @@ def add():
 
     result = validations.check_redirection_can_be_added(domain, url)
     if result.get("status") == 500:
-        status = False
-        message = result.get("message")
+        return flask.make_response(flask.jsonify(result), 500)
 
     if not dns.add_domain(domain):
         status = False
