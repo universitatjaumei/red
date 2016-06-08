@@ -29,11 +29,11 @@ button.del {
 }
 
 tr.redrow-even {
-    background: #fcabab;
+    background: #f7d2d2;
 }
 
 tr.redrow-odd {
-  background: #f98686;
+  background: #f9dede;
 }
 
 button.del img {
