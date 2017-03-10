@@ -24,8 +24,15 @@ function checkDomainDuplicated(redirections, red) {
 
 $(document).ready(function () {
 
-  var redirections;
+  var redirections = [];
   var localDomain;
+
+  $('.typing').typing({
+      stop: function (event, $elem) {
+        updateTable(redirections, $elem.val());
+      },
+      delay: 400
+  });
 
   $.ajax({
     type: 'GET',
@@ -62,7 +69,7 @@ $(document).ready(function () {
           return alert(data.message);
         }
         $.modal.close();
-        updateTable();
+        refreshData();
       },
 
       error: function (error) {
@@ -163,19 +170,54 @@ $(document).ready(function () {
         $('input[name=domain]').val('').focus();
         $('input[name=url]').val('');
         $('label#altdomain').hide();
-        updateTable();
+        refreshData();
         $('img.spinner-add').hide();
       },
 
       error: function (error) {
-        updateTable();
+        refreshData();
         $('img.spinner-add').hide();
         alert(error.responseJSON.message);
       },
     });
   });
 
-  function updateTable() {
+  function updateTable(redirections, filter) {
+    $('table tbody').empty();
+    for (var i in redirections) {
+      var row = redirections[i];
+      var narrowUrl = row.url;
+      if (narrowUrl.length > 45) {
+        narrowUrl = narrowUrl.substring(0, 45) + '...';
+      }
+
+      var status_img = row.status ? "/static/img/status_ok.jpg" : "/static/img/status_error.png";
+      var className = i % 2 === 0 ? '' : 'pure-table-odd';
+      if (!row.status) {
+        className = i % 2 === 0 ? 'redrow-even' : 'redrow-odd';
+      }
+
+      if (!filter || new RegExp(filter, 'i').test(row.domain)) {
+        $('table tbody').append(
+          '<tr class="' + className + '">' +
+          '<td class="id"><img title="' + row.message + '" src="' + status_img +'" /></td>' +
+          '<td class="domain"><a href="http://' + row.domain + '">' + row.domain + '</a></td>' +
+          '<td><a href="#" class="openmodal"><img class="edit" src="/static/img/edit.png" /></a> <a data-id="' + row.id + '" class="redirect" href="' + row.url + '" title="' + row.url + '">' + narrowUrl + '</a></td>' +
+          '<td class="date">' + row.date_added + '</td>' +
+          '<td><button type="submit" data-id="' + row.id +
+          '" class="pure-button pure-button-secondary del">' +
+          '<img class="spinner-remove-' + row.id +
+          '" src="/static/img/spinner-remove.gif" />' +
+          ' Remove</button></td>' +
+          '</tr>'
+        );
+      }
+    }
+
+    updateListeners();
+  }
+
+  function refreshData() {
     $('div.spinner').show();
     $.ajax({
       type: 'GET',
@@ -184,36 +226,7 @@ $(document).ready(function () {
       success: function (data, status) {
         $('div.spinner').hide();
         redirections = data.rows.slice();
-        $('table tbody').empty();
-        for (var i in data.rows) {
-          var row = data.rows[i];
-          var narrowUrl = row.url;
-          if (narrowUrl.length > 45) {
-            narrowUrl = narrowUrl.substring(0, 45) + '...';
-          }
-
-          var status_img = row.status ? "/static/img/status_ok.jpg" : "/static/img/status_error.png";
-          var className = i % 2 === 0 ? '' : 'pure-table-odd';
-          if (!row.status) {
-            className = i % 2 === 0 ? 'redrow-even' : 'redrow-odd';
-          }
-
-          $('table tbody').append(
-            '<tr class="' + className + '">' +
-            '<td class="id"><img title="' + row.message + '" src="' + status_img +'" /></td>' +
-            '<td class="domain"><a href="http://' + row.domain + '">' + row.domain + '</a></td>' +
-            '<td><a href="#" class="openmodal"><img class="edit" src="/static/img/edit.png" /></a> <a data-id="' + row.id + '" class="redirect" href="' + row.url + '" title="' + row.url + '">' + narrowUrl + '</a></td>' +
-            '<td class="date">' + row.date_added + '</td>' +
-            '<td><button type="submit" data-id="' + row.id +
-            '" class="pure-button pure-button-secondary del">' +
-            '<img class="spinner-remove-' + row.id +
-            '" src="/static/img/spinner-remove.gif" />' +
-            ' Remove</button></td>' +
-            '</tr>'
-          );
-        }
-
-        updateListeners();
+        updateTable(redirections);
       },
 
       error: function (error) {
@@ -247,7 +260,7 @@ $(document).ready(function () {
         url: '/api/red/' + redId,
         contentType: 'application/json;charset=UTF-8',
         success: function (data, status) {
-          updateTable();
+          refreshData();
         },
 
         error: function (error) {
@@ -258,5 +271,5 @@ $(document).ready(function () {
     });
   }
 
-  updateTable();
+  refreshData();
 });

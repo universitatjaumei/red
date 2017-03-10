@@ -73,10 +73,18 @@ td.id img {
   text-align: center;
 }
 
+.search {
+  margin: 1em 0;
+  background: #EEE;
+  padding: 1em;
+  border-top: 1px solid #AAA;
+  border-bottom: 1px solid #AAA;
+}
+
 .header {
      margin: 0;
      color: #333;
-     text-align: center;
+     text-align: left;
      padding: 2.5em 2em 0;
      border-bottom: 1px solid #eee;
  }
