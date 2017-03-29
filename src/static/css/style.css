@@ -184,8 +184,9 @@ td.date {
     left: 0;
 }
 
-img.spinner-generate {
+img.spinner {
     display: none;
+    vertical-align: middle;
 }
 
 img.edit {
@@ -198,14 +199,6 @@ div.spinner {
   width: 800px;
   height: 600px;
   background: url("/static/img/spinner.gif");
-}
-
-img.spinner-add {
-    display: none;
-}
-
-img.spinner-edit {
-    display: none;
 }
 
 /* When the body has the loading class, we turn
@@ -231,4 +224,65 @@ div#edit strong.redirection {
 
 div#edit input {
   width: 100%;
+}
+
+table.cards td, table.cards th {
+  padding: 0 1rem 0 0;
+}
+
+table.cards td.number, table.cards th.number {
+  text-align: center;
+}
+
+table.cards td.date, table.cards th.date {
+  text-align: center;
+  white-space: nowrap;
+}
+
+table.cards td.redirection, table.cards th.redirection {
+  text-align: left;
+}
+
+table.cards td.redirection p.domain img {
+  vertical-align: middle;
+}
+
+table.cards td.redirection p.domain a {
+  font-size: 1.3rem;
+  color: #555;  
+}
+
+table.cards td.redirection p.domain a:hover {
+  color: #222;  
+}
+
+table.cards td.redirection p.url a {
+  font-size: .9rem;
+  color: gray;
+}
+
+table.cards td.redirection p.url a:hover {
+  color: #666;
+}
+
+table.cards td.redirection p.url a.badstatus {
+  color: darkred;
+}
+
+button.delete-redirection {
+  float: left;
+}
+
+button.change-redirection {
+  float: right;
+}
+
+.button-error {
+  background: rgb(202, 60, 60);
+  float: right;    
+  color: white;
+}
+
+div#edit p.redirection {
+  font-size: .9rem;
 }

@@ -1,0 +1,15 @@
+<tr class="{{if #index % 2}}pure-table-odd{{/if}}">
+  <td class="number">{{>#index+1}}</td>
+  <td class="redirection">
+    <p class="domain"><a href="#" class="openmodal"><img class="edit" src="/static/img/edit.png" /></a> <a class="domain" target="_blank" href="http://{{>domain}}">{{>domain}}</a></p>
+    <p class="url"><a data-id="{{>id}}" target="_blank" class="redirect{{if status === 0}} badstatus{{/if}}" href="{{>url}}" title="{{>url}}">{{>url}}</a></p>
+  </td>
+  <td class="date">{{>date_added}}</td>
+</tr>
+<!--
+  <td class="id"><img title="' + row.message + '" src="' + status_img +'" /></td>
+  <td class="domain"></td>
+  <td> </td>
+  <td><button type="submit" data-id="' + row.id + '" class="pure-button pure-button-secondary del">
+  <img class="spinner-remove-' + row.id +" src="/static/img/spinner-remove.gif" /> Remove</button></td>
+</tr>-->

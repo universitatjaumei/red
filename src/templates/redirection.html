@@ -4,6 +4,7 @@
     <script src="{{ url_for('static', filename='components/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='components/jquery-modal/jquery.modal.min.js') }}"></script>
     <script src="{{ url_for('static', filename='components/jquery.typing/jquery.typing-0.2.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='components/jsrender/jsrender.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/redirection.js') }}"></script>
 {% endblock %}
 {% block body %}
@@ -16,19 +17,20 @@
       <form class="pure-form pure-form-stacked">
           <fieldset>
               <legend>Domain: <strong class="domain">Domain</strong></legend>
-              <strong class="redirection">Actual redirection</strong>
+              <p class="redirection">Actual redirection</p>
               <input class="new-redirection" placeholder="Insert new redirection value">
               <input class="id" type="hidden" />
-              <button type="button" class="pure-button pure-button-primary change-redirection"><img class="spinner-edit" src="{{ url_for('static', filename='img/spinner-edit.gif') }}" /> Change</button>
+              <button type="button" class="pure-button button-error delete-redirection"><img class="spinner delete" src="{{ url_for('static', filename='img/spinner-delete.gif') }}" /> Delete redirection</button>
+              <button type="button" class="pure-button pure-button-primary change-redirection"><img class="spinner edit" src="{{ url_for('static', filename='img/spinner-edit.gif') }}" /> Change</button>              
           </fieldset>
       </form>
     </div>
-    <div class="content">
 
+    <div class="content">
       <form name="red" class="pure-form pure-form-stacked" action="/api/red">
         <fieldset>
             <legend style="line-height: 2em; margin-bottom: 1em;">
-              <button type="submit" class="button-generate pure-button generate"><img class="spinner-generate" src="{{ url_for('static', filename='img/spinner-generate.gif') }}" /> Sync DNS</button>
+              <button type="button" class="button-generate pure-button generate"><img class="spinner generate" src="{{ url_for('static', filename='img/spinner-generate.gif') }}" /> Sync DNS</button>
               Manage your redirections below, or re-generate the <strong>NGINX</strong> configuration with the button on the right.
               <br style="clear: both;" />
             </legend>
@@ -48,29 +50,28 @@
 
               <div class="pure-u-1 pure-u-md-1-5">
                 <label style="color: white; text-align: right;">Action</label>
-                <button type="submit" class="pure-button pure-button-primary add right"><img class="spinner-add" src="{{ url_for('static', filename='img/spinner-add.gif') }}" /> Add redirection</button>
+                <button type="button" class="pure-button pure-button-primary add right"><img class="spinner add" src="{{ url_for('static', filename='img/spinner-add.gif') }}" /> Add redirection</button>
               </div>
 
               <div class="pure-u-1 pure-u-md-5-5 search">
                 <label style="font-weight: bold;">Search</label>
-                <input class="typing long" type="text" placeholder="Search for a domain...">
+                <input class="typing long" type="text" placeholder="Search for a domain..." style="float: left;">
+                <button type="submit" class="pure-button pure-button-primary" style="float: left; margin: 5px;">Search</button>
               </div>
             </div>
         </fieldset>
       </form>
 
       <br />
-      <table class="pure-table">
-        <thead>
+      <table class="cards">
+         <thead>
             <tr>
-                <th>#</th>
-                <th>Domain</th>
-                <th>Redirect URL</th>
-                <th>Date Added</th>
-                <th>Action</th>
+                <th class="number">#</th>
+                <th class="redirection">Redirection</th>
+                <th class="date">Date Added</th>
             </tr>
         </thead>
-
+        
         <tbody></tbody>
       </table>
 

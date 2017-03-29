@@ -10,7 +10,16 @@ function checkValidURL(url) {
   return false;
 }
 
-function checkDomainDuplicated(redirections, red) {
+function renderExternalTmpl(cb) {
+    var file = '/static/templates/redirections-table.tmpl.html';
+    $.when($.get(file))
+     .done(function(tmplData) {      
+         $.templates({ tmpl: tmplData });
+         cb();
+     });    
+}
+
+function checkDuplicatedDomain(redirections, red) {
   var duplicated = false;
 
   redirections.filter(function (redirection) {
@@ -27,9 +36,15 @@ $(document).ready(function () {
   var redirections = [];
   var localDomain;
 
+  $('form[name=red]').submit(function() {
+    var filter = $('.typing').val();        
+    updateRedirections(redirections, filter);
+    return false;
+  });
+
   $('.typing').typing({
       stop: function (event, $elem) {
-        updateTable(redirections, $elem.val());
+        updateRedirections(redirections, $elem.val());
       },
       delay: 400
   });
@@ -104,18 +119,18 @@ $(document).ready(function () {
 
   $('form[name=red] button.generate').click(function (e) {
     e.preventDefault();
-    $('img.spinner-generate').show();
+    $('img.spinner.generate').show();
     $.ajax({
       type: 'POST',
       url: '/api/red/generate',
       contentType: 'application/json;charset=UTF-8',
       success: function (data, status) {
-        $('img.spinner-generate').hide();
+        $('img.spinner.generate').hide();
         alert(data.message);
       },
 
       error: function (error) {
-        $('img.spinner-generate').hide();
+        $('img.spinner.generate').hide();
         var responseMessage = JSON.parse(error.responseText);
         alert(responseMessage.message);
       },
@@ -148,19 +163,19 @@ $(document).ready(function () {
       return;
     }
 
-    if (checkDomainDuplicated(redirections, { domain: domain, url: url })) {
+    if (checkDuplicatedDomain(redirections, { domain: domain, url: url })) {
       alert('Duplicated redirection ' + domain);
       return;
     }
 
     if (altdomain &&
         domain.indexOf('www.') !== 0 &&
-        checkDomainDuplicated(redirections, { domain: 'www.' + domain, url: url })) {
+        checkDuplicatedDomain(redirections, { domain: 'www.' + domain, url: url })) {
       alert('Duplicated redirection www.' + domain);
       return;
     }
 
-    $('img.spinner-add').show();
+    $('img.spinner.add').show();
     $.ajax({
       type: 'POST',
       url: $('form[name=red]').attr('action'),
@@ -171,49 +186,21 @@ $(document).ready(function () {
         $('input[name=url]').val('');
         $('label#altdomain').hide();
         refreshData();
-        $('img.spinner-add').hide();
+        $('img.spinner.add').hide();
       },
 
       error: function (error) {
         refreshData();
-        $('img.spinner-add').hide();
+        $('img.spinner.add').hide();
         alert(error.responseJSON.message);
       },
     });
   });
 
-  function updateTable(redirections, filter) {
-    $('table tbody').empty();
-    for (var i in redirections) {
-      var row = redirections[i];
-      var narrowUrl = row.url;
-      if (narrowUrl.length > 45) {
-        narrowUrl = narrowUrl.substring(0, 45) + '...';
-      }
-
-      var status_img = row.status ? "/static/img/status_ok.jpg" : "/static/img/status_error.png";
-      var className = i % 2 === 0 ? '' : 'pure-table-odd';
-      if (!row.status) {
-        className = i % 2 === 0 ? 'redrow-even' : 'redrow-odd';
-      }
-
-      if (!filter || new RegExp(filter, 'i').test(row.domain)) {
-        $('table tbody').append(
-          '<tr class="' + className + '">' +
-          '<td class="id"><img title="' + row.message + '" src="' + status_img +'" /></td>' +
-          '<td class="domain"><a href="http://' + row.domain + '">' + row.domain + '</a></td>' +
-          '<td><a href="#" class="openmodal"><img class="edit" src="/static/img/edit.png" /></a> <a data-id="' + row.id + '" class="redirect" href="' + row.url + '" title="' + row.url + '">' + narrowUrl + '</a></td>' +
-          '<td class="date">' + row.date_added + '</td>' +
-          '<td><button type="submit" data-id="' + row.id +
-          '" class="pure-button pure-button-secondary del">' +
-          '<img class="spinner-remove-' + row.id +
-          '" src="/static/img/spinner-remove.gif" />' +
-          ' Remove</button></td>' +
-          '</tr>'
-        );
-      }
-    }
-
+  function updateRedirections(redirections, filter) {  
+    $('table.cards tbody').html($.render.tmpl(redirections.filter(function(redirection) {
+      return new RegExp(filter, 'i').test(redirection.domain);
+    })));
     updateListeners();
   }
 
@@ -226,7 +213,8 @@ $(document).ready(function () {
       success: function (data, status) {
         $('div.spinner').hide();
         redirections = data.rows.slice();
-        updateTable(redirections);
+        var filter = $('.typing').val();    
+        updateRedirections(redirections, filter);
       },
 
       error: function (error) {
@@ -237,39 +225,44 @@ $(document).ready(function () {
 
   function updateListeners() {
     $('a.openmodal').click(function(ev) {
-      var domain = $(this).parent().parent().children("td.domain").children("a").text();
-      var redirect = $(this).parent().children("a.redirect").attr("title");
-      var id = $(this).parent().children("a.redirect").data("id");
+      var domain = $(this).parent().parent().children("p.domain").children("a.domain").text();
+      var redirect = $(this).parent().parent().children("p.url").children("a").attr("title");
+
+      var id = $(this).parent().parent().children("p.url").children("a").data("id");
       ev.preventDefault();
       $("#edit strong.domain").text(domain);
-      $("#edit strong.redirection").html(redirect);
+      $("#edit p.redirection").html(redirect);
       $("#edit input.id").val(id);
       $("#edit input.new-redirection").val('');
       $('#edit').modal();
     });
 
-    $('table button.del').on('click', function (e) {
+    $('button.delete-redirection').on('click', function (e) {
       e.preventDefault();
-      var tr = $(this).closest('tr');
-      var redId = $(this).data('id');
+      var fieldset = $(this).closest('fieldset');
+      var redId = fieldset.children("input.id").val();
 
-      $('img.spinner-remove-' + redId).show();
+      $('img.spinner.delete').show();
 
       $.ajax({
         type: 'DELETE',
         url: '/api/red/' + redId,
         contentType: 'application/json;charset=UTF-8',
         success: function (data, status) {
+          $('img.spinner.delete').hide();          
           refreshData();
+          $.modal.close();
         },
 
         error: function (error) {
-          $('img.spinner-remove-' + redId).hide();
+          $('img.spinner.delete').hide();
           console.log('fail');
-        },
+        }
       });
     });
   }
 
-  refreshData();
+  renderExternalTmpl(function() {
+    refreshData();
+  });
 });

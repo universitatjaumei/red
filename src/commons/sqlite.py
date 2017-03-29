@@ -32,7 +32,15 @@ class Database:
         cursor.execute ('''SELECT id, domain, url, date_added, active, status, message from red order by id desc''')
         rows = []
         for row in cursor:
-            rows.append(row)
+            rows.append({
+                "id": row["id"],
+                "active": row["active"],
+                "domain": row["domain"],
+                "date_added": row["date_added"].split(" ")[0],
+                "message": row["message"],
+                "status": row["status"],
+                "url": row["url"]
+            })
         return rows
 
     def get_redirection(self, id):
