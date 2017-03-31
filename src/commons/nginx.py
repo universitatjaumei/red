@@ -1,12 +1,12 @@
 import yaml
 import os
-from docker import Client
+from docker import APIClient
 from datetime import datetime
 
 class NGINX:
     def __init__(self, db, config):
         self.redConfFile = os.path.join(os.path.dirname(__file__), '..', '..', config.get("red_nginx_conf_file"))
-        self.client = Client(base_url="unix://%s" % config.get("socket"))
+        self.client = APIClient(base_url="unix://%s" % config.get("socket"))
 
         self.db = db
         for container in self.client.containers():

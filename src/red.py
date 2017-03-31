@@ -25,6 +25,9 @@ def logout():
 
 @app.after_request
 def after_request(res):
+    if app.config['TESTING']:
+        return flask.make_response()
+
     lsm = flask_lsm_auth.LSM(auth_config)
     user = lsm.get_login()
     if not user:

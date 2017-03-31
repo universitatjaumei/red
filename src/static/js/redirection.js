@@ -97,10 +97,6 @@ $(document).ready(function () {
   $('form[name=red] input#domain').on('change', function (data) {
     var domain = $(this).val();
 
-    if (!checkValidDomain(domain)) {
-      return;
-    }
-
     if (!domain || domain.indexOf('www.') === 0) {
       $('label#altdomain').hide();
       return;
@@ -110,7 +106,12 @@ $(document).ready(function () {
       var ereg = new RegExp(localDomain + '$');
       if (domain.match(ereg) === null) {
         domain += '.' + localDomain;
+        $(this).val(domain);
       }
+    }
+
+    if (!checkValidDomain(domain)) {
+      return;
     }
 
     $('label#altdomain').show();

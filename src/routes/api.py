@@ -23,7 +23,7 @@ def index():
     return flask.jsonify({ "rows": db.get_redirections() })
 
 @api_app.route("/api/red", methods=["POST"])
-def add():
+def add():   
     domain = flask.request.json["domain"].lower().strip()
     url = flask.request.json["url"].strip()
     alternative = flask.request.json["alt"]

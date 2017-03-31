@@ -6,6 +6,7 @@ import urllib2
 class Validations:
     def __init__(self, db, domain_config):
         self.db = db
+        socket.setdefaulttimeout(5)
         self.local_domain = domain_config.get('name', None)
 
     def check_valid_domain(self, domain):
