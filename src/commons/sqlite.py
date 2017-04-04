@@ -41,7 +41,7 @@ class Database:
                 "status": row["status"],
                 "url": row["url"]
             })
-        return rows
+        return sorted(rows, key=lambda k: k['status'], reverse=True)
 
     def get_redirection(self, id):
         cursor = self.db.cursor()

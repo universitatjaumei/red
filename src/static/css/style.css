@@ -189,7 +189,15 @@ img.spinner {
     vertical-align: middle;
 }
 
-img.edit {
+a.openmodal {
+  vertical-align: middle;
+}
+
+a.openmodal:hover i.edit {
+  color: darkred;
+}
+
+i.edit {
   margin-right: .5em;
 }
 
@@ -232,6 +240,7 @@ table.cards td, table.cards th {
 
 table.cards td.number, table.cards th.number {
   text-align: center;
+  padding-left: 1em;
 }
 
 table.cards td.date, table.cards th.date {
@@ -256,6 +265,10 @@ table.cards td.redirection p.domain a:hover {
   color: #222;  
 }
 
+table.cards tr.badstatus td.redirection p.domain a:hover, table.cards tr.badstatus td.redirection p.url a.redirect:hover {
+  color: #222;  
+}
+
 table.cards td.redirection p.url a {
   font-size: .9rem;
   color: gray;
@@ -265,8 +278,24 @@ table.cards td.redirection p.url a:hover {
   color: #666;
 }
 
-table.cards td.redirection p.url a.badstatus {
-  color: darkred;
+table.cards tr.badstatus {
+  background: #DE5050;
+}
+
+table.cards tr.badstatus.pure-table-odd td {
+  background: #F76F6F;
+}
+
+table.cards tr.badstatus {
+  color: white;
+}
+
+table.cards tr.badstatus td.redirection p.domain a {
+  color: white;
+}
+
+table.cards tr.badstatus td.redirection p.url a.redirect {
+  color: white;
 }
 
 button.delete-redirection {
