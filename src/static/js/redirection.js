@@ -42,7 +42,7 @@ $(document).ready(function () {
     return false;
   });
 
-  $('.typing').on('keypress cut paste', _.debounce(function() {
+  $('.typing').on('change keyup copy paste cut', _.debounce(function() {
       updateRedirections(redirections, $(this).val());
   }, 200));
 
