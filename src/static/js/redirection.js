@@ -42,12 +42,9 @@ $(document).ready(function () {
     return false;
   });
 
-  $('.typing').typing({
-      stop: function (event, $elem) {
-        updateRedirections(redirections, $elem.val());
-      },
-      delay: 400
-  });
+  $('.typing').on('keypress cut paste', _.debounce(function() {
+      updateRedirections(redirections, $(this).val());
+  }, 200));
 
   $.ajax({
     type: 'GET',

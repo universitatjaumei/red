@@ -286,3 +286,8 @@ button.change-redirection {
 div#edit p.redirection {
   font-size: .9rem;
 }
+
+div#edit {
+  width: 70%;
+  min-width: 400px;
+}
