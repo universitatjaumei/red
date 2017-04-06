@@ -129,8 +129,12 @@ $(document).ready(function () {
 
       error: function (error) {
         $('img.spinner.generate').hide();
-        var responseMessage = JSON.parse(error.responseText);
-        alert(responseMessage.message);
+        try {
+          var responseMessage = JSON.parse(error.responseText);
+          alert(responseMessage.message);          
+        } catch(e) {
+          alert('Bad response from server syncing DNS.')
+        }
       },
     });
     return false;

@@ -51,9 +51,10 @@ class DNS:
         return True
 
     def xmlrpc_dns_generate(self):
-        server = xmlrpclib.Server(self.xmlrpc_server);
+        server = xmlrpclib.Server(self.xmlrpc_server)
         xmlrpc_method = getattr(server, self.xmlrpc_method)
         xmlrpc_response = xmlrpc_method()
+
         if xmlrpc_response:
             status = xmlrpc_response[0]
             if status == 0:
