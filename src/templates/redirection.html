@@ -2,10 +2,10 @@
 {% block head %}
     <title>Redirect UJI</title>
     {% assets filters="jsmin", output="gen/packed.js",
-          "components/jquery/dist/jquery.min.js",
-          "components/jquery-modal/jquery.modal.min.js",
-          "components/underscore/underscore-min.js",
-          "components/jsrender/jsrender.min.js",
+          "components/jquery/dist/jquery.js",
+          "components/jquery-modal/jquery.modal.js",
+          "components/underscore/underscore.js",
+          "components/jsrender/jsrender.js",
           "js/redirection.js"
     %}
         <script type="text/javascript" src="{{ ASSET_URL }}"></script>
