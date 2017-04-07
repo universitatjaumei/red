@@ -1,5 +1,6 @@
 import flask
 import flask_lsm_auth
+from flask_assets import Environment
 from routes.api import api_app
 import yaml
 import os
@@ -11,6 +12,8 @@ authorizedUsers = auth_config.get("users")
 
 app = flask.Flask("redirect")
 app.register_blueprint(api_app)
+
+assets = Environment(app)
 
 @app.route("/", methods=["GET"])
 def index():

@@ -1,11 +1,15 @@
 <!doctype html>
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='components/pure/pure-min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='components/pure/grids-responsive-min.css') }}">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='components/jquery-modal/jquery.modal.css') }}" type="text/css" media="screen" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='components/font-awesome/css/font-awesome.min.css') }}" type="text/css" media="screen" />
-
+    {% assets filters="cssmin", output="gen/packed.css",
+          "components/pure/pure-min.css",
+          "components/pure/grids-responsive-min.css",
+          "components/font-awesome/css/font-awesome.min.css"
+          "components/jquery-modal/jquery.modal.css",
+          "css/style.css"
+    %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css" media="screen" />
+    {% endassets %}
+    
     {% block head %}{% endblock %}
 </head>
 

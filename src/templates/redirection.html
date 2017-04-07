@@ -1,11 +1,15 @@
 {% extends "layout.html" %}
 {% block head %}
     <title>Redirect UJI</title>
-    <script src="{{ url_for('static', filename='components/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='components/jquery-modal/jquery.modal.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='components/underscore/underscore-min.js') }}"></script>
-    <script src="{{ url_for('static', filename='components/jsrender/jsrender.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/redirection.js') }}"></script>
+    {% assets filters="jsmin", output="gen/packed.js",
+          "components/jquery/dist/jquery.min.js",
+          "components/jquery-modal/jquery.modal.min.js",
+          "components/underscore/underscore-min.js",
+          "components/jsrender/jsrender.min.js",
+          "js/redirection.js"
+    %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 {% endblock %}
 {% block body %}
     <div class="header">

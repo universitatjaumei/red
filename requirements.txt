@@ -1,5 +1,8 @@
 flask
 flask-sqlalchemy
+Flask-Assets
+jsmin
+cssmin
 requests
 docker
 rfc3987
