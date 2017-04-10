@@ -53,7 +53,7 @@ if __name__ == "__main__":
             print domain_result
             print redirection_result
             if redirection_result.get("status") != 200:
-                db.update_status(redirection.get('id'), False, result.get("message"))
+                db.update_status(redirection.get('id'), False, redirection_result.get("message"))
             elif domain_result == False:
                 db.update_status(redirection.get('id'), False, 'Domain does not exist in DNS')
             else:                                
