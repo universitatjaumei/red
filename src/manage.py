@@ -47,10 +47,14 @@ if __name__ == "__main__":
         db.del_redirection_by_domain(domain)
     elif action == 'check':
         for redirection in db.get_redirections():
-            result = validations.check_redirection_status(redirection)
+            domain_result = validations.check_domain_exists(redirection.get('domain'))            
+            redirection_result = validations.check_redirection_status(redirection)
             print redirection.get('domain')
-            print result
-            if result.get("status") == 200:
-                db.update_status(redirection.get('id'), True, '')
-            else:
+            print domain_result
+            print redirection_result
+            if redirection_result.get("status") != 200:
                 db.update_status(redirection.get('id'), False, result.get("message"))
+            elif domain_result == False:
+                db.update_status(redirection.get('id'), False, 'Domain does not exist in DNS')
+            else:                                
+                db.update_status(redirection.get('id'), True, '')
