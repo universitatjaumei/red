@@ -282,8 +282,12 @@ table.cards tr.badstatus {
   background: #DE5050;
 }
 
-table.cards tr.baddomain {
+table.cards tr.badstatus.baddomain {
   background: darkgoldenrod;
+}
+
+table.cards tr.badstatus.baddomain.pure-table-odd td {
+  background: darkorange;
 }
 
 table.cards tr.badstatus.pure-table-odd td {
@@ -295,7 +299,7 @@ table.cards tr.badstatus {
 }
 
 table.cards p.error {
-  color: darkred;
+  color: #222;
   font-weight: bold;
 }
 
