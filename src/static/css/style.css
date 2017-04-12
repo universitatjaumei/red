@@ -282,12 +282,21 @@ table.cards tr.badstatus {
   background: #DE5050;
 }
 
+table.cards tr.baddomain {
+  background: darkgoldenrod;
+}
+
 table.cards tr.badstatus.pure-table-odd td {
   background: #F76F6F;
 }
 
 table.cards tr.badstatus {
   color: white;
+}
+
+table.cards p.error {
+  color: darkred;
+  font-weight: bold;
 }
 
 table.cards tr.badstatus td.redirection p.domain a {

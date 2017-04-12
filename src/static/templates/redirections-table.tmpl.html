@@ -1,8 +1,9 @@
-<tr class="{{if status === 0}}badstatus {{/if}}{{if #index % 2}}pure-table-odd{{/if}}">
+<tr class="{{if status === 0}}badstatus {{/if}}{{if message === 'Domain does not exist in DNS'}}baddomain {{/if}}{{if #index % 2}}pure-table-odd{{/if}}">
   <td class="number">{{>#index+1}}</td>
   <td class="redirection">
-    <p class="domain"><a href="#" alt="edit" class="openmodal"><i class="fa fa-edit edit"></i></a> <a class="domain" target="_blank" href="http://{{>domain}}">{{>domain}}</a></p>
+    <p class="domain"><a href="#" alt="edit" class="openmodal"><i class="fa fa-edit edit"></i></a> <a class="domain" target="_blank" href="http://{{>domain}}">{{>domain}}</a></p>  
     <p class="url"><a data-id="{{>id}}" target="_blank" class="redirect" href="{{>url}}" title="{{>url}}">{{>url}}</a></p>
+    {{if message}}<p class="error">{{>message}}</p>{{/if}}    
   </td>
   <td class="date">{{>date_added}}</td>
 </tr>
