@@ -4,10 +4,11 @@ import socket
 import time
 import xmlrpclib
 from validations import Validations
+from commons.oracle import OracleDatabase
 
 class DNS:
-    def __init__(self, config, db=None):
-        self.db = db
+    def __init__(self, config, oracle_conn=None):
+        self.oracle_conn = oracle_conn
 
         if config.get("dns"):
             self.xmlrpc_server = config.get("dns").get("xmlrpc_server")
@@ -27,8 +28,9 @@ class DNS:
         if self.check_domain_exists(domain):
             return False
 
-        if self.db:
-            return self.db.add_domain(domain)
+        db = OracleDatabase(self.oracle_conn)
+        if db:
+            return db.add_domain(domain)
 
         return True
 
@@ -36,8 +38,9 @@ class DNS:
         #if not self.check_domain_exists(domain):
         #    return False
 
-        if self.db:
-            self.db.delete_domain(domain)
+        db = OracleDatabase(self.oracle_conn)
+        if db:
+            db.delete_domain(domain)
 
         return True
 

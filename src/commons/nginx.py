@@ -10,6 +10,7 @@ class NGINX:
 
         self.db = db
         for container in self.client.containers():
+            print container.get('Image')
             if container.get('Image') == 'nginx':
                 self.container = container
 

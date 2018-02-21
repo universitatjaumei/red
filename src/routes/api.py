@@ -4,7 +4,6 @@ from commons.nginx import NGINX
 from commons.config import Config
 from commons.validations import Validations
 from commons.dns import DNS
-from commons.oracle import OracleDatabase
 
 config = Config()
 api_app = flask.Blueprint("api_app", __name__, template_folder="../templates")
@@ -12,7 +11,7 @@ db = Database(config.get("database"))
 nginx = NGINX(db, config.get("nginx"))
 validations = Validations(db, config.get("domain"))
 oracle_conn = config.get("domain").get("db_conn")
-dns = DNS(config.get("domain"), OracleDatabase(oracle_conn))
+dns = DNS(config.get("domain"), oracle_conn)
 
 @api_app.route("/api/red/local_domain", methods=["GET"])
 def local_domain():
@@ -50,9 +49,12 @@ def add():
 
 @api_app.route("/api/red/<id>", methods=["DELETE"])
 def delete(id):
-    domain = db.get_redirection(id).get("domain")
-    db.del_redirection(id)
-    dns.delete_domain(domain)
+    print("id:" + id)
+    domain = db.get_redirection(id)
+    if domain:
+        domain = domain.get("domain")
+        dns.delete_domain(domain)    
+        db.del_redirection(id)
     return flask.jsonify({ "status": 200 })
 
 @api_app.route("/api/red/<id>", methods=["PUT"])
